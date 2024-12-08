@@ -1,4 +1,4 @@
-# TP Final JAVA: Taller Mecánica
+# TP Final JAVA: Taller Mecánico
 Repositorio para el trabajo práctico integrador de la materia JAVA
 
 ## Integrante
