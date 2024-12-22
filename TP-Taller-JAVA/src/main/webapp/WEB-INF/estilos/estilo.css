@@ -1,0 +1,69 @@
+
+.grande{
+    /* border: 1px solid black; */
+    height: 94vh;
+    background-color: antiquewhite;
+}
+
+.card{
+    width: 200px;
+    border: 2px solid black;
+    height: 190px;
+    margin:20px;
+    border:none;
+}
+
+.cuadros{
+	background: transparent;
+}
+
+.btn-consulta{
+	width:35px;
+	height:35px;
+	border-radius: 20px;
+}
+
+.box1:hover{
+   box-shadow:1px 1px 10px black ;
+
+ }
+
+.container{
+
+	height: 90vh;
+}
+
+
+.acja{
+	margin-bottom:15px;
+	margin-left:auto;
+	margin-right:auto;
+	max-width: 800px;	
+}
+
+.cajon{
+	padding:10px 30px;
+}
+
+
+.row{
+	margin-top:5px;
+	margin-bottom: 5px;
+}
+
+.comeabcck{
+	margin-left: 400px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
