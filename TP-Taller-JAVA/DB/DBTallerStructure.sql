@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `taller` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `taller`;
 -- MySQL dump 10.13  Distrib 8.0.40, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: taller
@@ -123,9 +125,9 @@ CREATE TABLE `usuario` (
   `tipo_doc` varchar(5) NOT NULL,
   `num_doc` varchar(10) NOT NULL,
   `direccion` varchar(50) DEFAULT NULL,
-  `rol` varchar(15) NOT NULL,
+  `rol` int NOT NULL,
   PRIMARY KEY (`id_usuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -159,4 +161,4 @@ CREATE TABLE `vehiculo` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-13 11:12:32
+-- Dump completed on 2025-01-30 16:25:35
