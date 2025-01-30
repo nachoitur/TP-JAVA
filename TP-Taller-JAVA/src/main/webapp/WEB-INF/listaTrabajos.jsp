@@ -26,6 +26,7 @@ LinkedList<Trabajo> joblist = (LinkedList<Trabajo>)request.getAttribute("listaTr
      	<div class="row">
 			<h4 class="mx-3 mb-3">Trabajos</h4>
 	 		<div class="">
+	 			<!-- Crear -->
 				<form action="ABMCTrabajo" method="post">
 					<input type="hidden" class="custom-control-input" name="bandera" value="aAnadir">
 	 				<input type="hidden" class="custom-control-input" name="idUserLogin" value="<%=userLogin.getId_usuario()%>">											
@@ -50,7 +51,7 @@ LinkedList<Trabajo> joblist = (LinkedList<Trabajo>)request.getAttribute("listaTr
 	 						<%for (Trabajo t: joblist) {%>
 								<tr>
 								<td>
-									<!-- consulta -->
+									<!-- Consulta -->
 									<div>
 										<form action="ABMCTrabajo" method="post">
 											<input type="hidden" class="custom-control-input" name="idUserLogin" value="<%=userLogin.getId_usuario()%>">
@@ -64,7 +65,7 @@ LinkedList<Trabajo> joblist = (LinkedList<Trabajo>)request.getAttribute("listaTr
 								<td><%=t.getDescripcion()%></td>
 								<td><%=t.getCosto_mdo()%></td>
 								<td>
-									<!-- editar users -->
+									<!-- Modifica -->
 									<div>
 										<form action="ABMCTrabajo" method="post">
 											<input type="hidden" class="custom-control-input" name="idUserLogin" value="<%=userLogin.getId_usuario()%>">
@@ -75,9 +76,9 @@ LinkedList<Trabajo> joblist = (LinkedList<Trabajo>)request.getAttribute("listaTr
 									</div>
 								</td>
 								<td>
-									<!-- borrar users -->
+									<!-- Borra -->
 									<div>
-										<form action="ABMCUsuario" method="post">
+										<form action="ABMCTrabajo" method="post">
 											<input type="hidden" class="custom-control-input" name="idUserLogin" value="<%=userLogin.getId_usuario()%>">
 											<input type="hidden" class="custom-control-input" name="idTrabajo" value="<%=t.getId_trabajo()%>">
 											<button type="submit" class="btn btn-danger" name="optionBM" value="baja">Eliminar</button>
