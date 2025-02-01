@@ -18,8 +18,7 @@
 	<div class="container">
 	
 	<form action="ABMCUsuario" method="post">
-	
-		<div class="form-group  ">
+			<div class="form-group  ">
 				<label for="inputNombre" class="" > Nombre</label>
 				<input id="inputNombre" name="nombre" class="form-control " value="<%=u.getNombre()%>" type="text" required>
 			</div>

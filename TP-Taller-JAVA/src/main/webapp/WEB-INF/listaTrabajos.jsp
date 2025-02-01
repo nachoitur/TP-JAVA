@@ -43,6 +43,7 @@ LinkedList<Trabajo> joblist = (LinkedList<Trabajo>)request.getAttribute("listaTr
 	 								<th>Tipo de Trabajo</th>
 	 								<th>Descripción</th>
 	 								<th>Costo de Mano de Obra</th>
+	 								
 	 								<th></th>
 	 								<th></th>
 	 							</tr>
