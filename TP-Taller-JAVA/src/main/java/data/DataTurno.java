@@ -5,7 +5,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
+import entities.Trabajo;
 import entities.Turno;
 
 public class DataTurno {
@@ -48,21 +51,23 @@ public class DataTurno {
         return turnos;
     }
 
-    public Turno getById(int id) {
+    public Turno getByKeys(LocalDate fecha, LocalTime hora, int idVehiculo) {
         Turno t = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
         DataTrabajo dt = new DataTrabajo();
         DataVehiculo dv = new DataVehiculo();
         try {
-            stmt = dbConnector.getInstancia().getConn().prepareStatement("SELECT * FROM turno WHERE id_turno=?");
-            stmt.setInt(1, id);
+            stmt = dbConnector.getInstancia().getConn().prepareStatement("SELECT * FROM turno WHERE fecha_turno=? AND hora_turno=? AND id_vehiculo=?");
+            stmt.setDate(1,java.sql.Date.valueOf(fecha));
+            stmt.setTime(2, java.sql.Time.valueOf(hora));
+            stmt.setInt(3, idVehiculo);
             rs = stmt.executeQuery();
             if (rs != null && rs.next()) {
                 t = new Turno();
-                t.setFecha(rs.getDate("fecha_turno").toLocalDate());
-                t.setHora(rs.getTime("hora_turno").toLocalTime());
-                t.setVehiculo(dv.getVehiculoById(rs.getInt("id_vehiculo")));
+                t.setFecha(fecha);
+                t.setHora(hora);
+                t.setVehiculo(dv.getVehiculoById(idVehiculo));
                 t.setKm_actuales(rs.getInt("km_actuales"));
                 t.setEstado(rs.getString("estado"));
                 t.setMedio_pago(rs.getString("medio_pago"));
@@ -98,6 +103,16 @@ public class DataTurno {
             stmt.setString(6, t.getMedio_pago());
             stmt.setFloat(7, t.getTotal());
             stmt.executeUpdate();
+            
+            for(Trabajo tr: t.getTrabajos()) {
+            	stmt = dbConnector.getInstancia().getConn().prepareStatement("INSERT INTO trabajo_turno(id_trabajo,"
+                		+ "fecha_turno, hora_turno, id_vehiculo) VALUES (?,?,?,?)");
+                stmt.setInt(1, tr.getId_trabajo());
+                stmt.setDate(2, java.sql.Date.valueOf(t.getFecha()));
+                stmt.setTime(3, java.sql.Time.valueOf(t.getHora()));
+                stmt.setInt(4, t.getVehiculo().getId_vehiculo());
+                stmt.executeUpdate();
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();

@@ -184,4 +184,35 @@ public class DataTrabajo {
 			}
 		}
 	}
+    
+    public Trabajo getByDesc(String des) {
+        Trabajo t = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        DataRepuesto dr = new DataRepuesto();
+        try {
+            stmt = dbConnector.getInstancia().getConn().prepareStatement("SELECT * FROM trabajo WHERE descripcion=?");
+            stmt.setString(1, des);
+            rs = stmt.executeQuery();
+            if (rs != null && rs.next()) {
+                t = new Trabajo();
+                t.setId_trabajo(rs.getInt("id_trabajo"));
+                t.setTipo_trabajo(rs.getString("tipoTrabajo"));
+                t.setDescripcion(rs.getString("descripcion"));
+                t.setCosto_mdo(rs.getFloat("costoManoObra"));
+                dr.setRepuestos(t);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                dbConnector.getInstancia().releaseConn();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return t;
+    }
 }

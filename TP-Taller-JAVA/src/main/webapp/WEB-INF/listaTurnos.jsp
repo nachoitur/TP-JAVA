@@ -1,6 +1,8 @@
 <%@page import="java.util.LinkedList"%>
 <%@page import="entities.Usuario"%>
 <%@page import="entities.Turno"%>
+<%@page import="entities.Vehiculo"%>
+<%@page import="entities.Trabajo"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -29,7 +31,7 @@ LinkedList<Turno> shiftlist = (LinkedList<Turno>)request.getAttribute("listaTurn
 	 			<!-- Crear -->
 				<form action="ABMCTurno" method="post">
 					<input type="hidden" class="custom-control-input" name="bandera" value="aAnadir">
-	 				<input type="hidden" class="custom-control-input" name="idUserLogin" value="<%=userLogin.getId_usuario()%>">											
+	 				<input type="hidden" class="custom-control-input" name="idUserLogin" value="<%=userLogin.getId_usuario()%>">										
 	 				<button type="submit" class="btn btn-success" name="optionBM" value="alta">Agregar</button>
 	 			</form>
 	 		</div>
@@ -41,40 +43,44 @@ LinkedList<Turno> shiftlist = (LinkedList<Turno>)request.getAttribute("listaTurn
 	 								<th></th>
 	 								<th>Fecha</th>
 	 								<th>Hora</th>
-	 								<th>Vehiculo</th>
-	 								<th>KM actuales</th>
+	 								<th>Marca</th>
+	 								<th>Modelo</th>
 	 								<th>Estado</th>
-	 								<th>Medio Pago</th>
-	 								<th>Total</th>
 	 								
 	 								<th></th>
 	 								<th></th>
 	 							</tr>
 	 						</thead>
 	 						<tbody>
-	 						<%for (Turno t: shiftlist) {%>
+	 						<%for (Turno t: shiftlist) {
+	 							Vehiculo v = t.getVehiculo();%>
 								<tr>
 								<td>
 									<!-- Consulta -->
 									<div>
 										<form action="ABMCTurno" method="post">
 											<input type="hidden" class="custom-control-input" name="idUserLogin" value="<%=userLogin.getId_usuario()%>">
-											<input type="hidden" class="custom-control-input" name="idTurno" value="<%=t.getId_turno()%>">
+											<input type="hidden" class="custom-control-input" name="fechaTurno" value="<%=t.getFecha()%>">
+											<input type="hidden" class="custom-control-input" name="horaTurno" value="<%=t.getHora()%>">
+											<input type="hidden" class="custom-control-input" name="idVehiculo" value="<%=v.getId_vehiculo()%>">
 											<button type="submit" class="btn btn-consulta btn-primary text-center " name="optionBM" value="consulta">!</button>
 										</form>
 									</div>
 								</td>
-								<td><%=t.getId_trabajo()%></td>
-								<td><%=t.getTipo_trabajo()%></td>
-								<td><%=t.getDescripcion()%></td>
-								<td><%=t.getCosto_mdo()%></td>
+								<td><%=t.getFecha()%></td>
+								<td><%=t.getHora()%></td>
+								<td><%=v.getMarca()%></td>
+								<td><%=v.getModelo()%></td>
+								<td><%=t.getEstado()%></td>
 								<td>
 									<!-- Modifica -->
 									<div>
-										<form action="ABMCTrabajo" method="post">
+										<form action="ABMCTurno" method="post">
 											<input type="hidden" class="custom-control-input" name="idUserLogin" value="<%=userLogin.getId_usuario()%>">
-											<input type="hidden" class="custom-control-input" name="idTrabajo" value="<%=t.getId_trabajo()%>">
-											 <input type="hidden" class="custom-control-input" name="bandera" value="aModificar">
+											<input type="hidden" class="custom-control-input" name="fechaTurno" value="<%=t.getFecha()%>">
+											<input type="hidden" class="custom-control-input" name="horaTurno" value="<%=t.getHora()%>">
+											<input type="hidden" class="custom-control-input" name="idVehiculo" value="<%=v.getId_vehiculo()%>">
+											<input type="hidden" class="custom-control-input" name="bandera" value="aModificar">
 											<button type="submit" class="btn btn-warning" name="optionBM" value="modificacion">Modificar</button>
 										</form>
 									</div>
@@ -82,9 +88,11 @@ LinkedList<Turno> shiftlist = (LinkedList<Turno>)request.getAttribute("listaTurn
 								<td>
 									<!-- Borra -->
 									<div>
-										<form action="ABMCTrabajo" method="post">
+										<form action="ABMCTurno" method="post">
 											<input type="hidden" class="custom-control-input" name="idUserLogin" value="<%=userLogin.getId_usuario()%>">
-											<input type="hidden" class="custom-control-input" name="idTrabajo" value="<%=t.getId_trabajo()%>">
+											<input type="hidden" class="custom-control-input" name="fechaTurno" value="<%=t.getFecha()%>">
+											<input type="hidden" class="custom-control-input" name="horaTurno" value="<%=t.getHora()%>">
+											<input type="hidden" class="custom-control-input" name="idVehiculo" value="<%=v.getId_vehiculo()%>">
 											<button type="submit" class="btn btn-danger" name="optionBM" value="baja">Eliminar</button>
 										</form>
 									</div>

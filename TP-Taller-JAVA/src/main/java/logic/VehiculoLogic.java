@@ -27,4 +27,8 @@ public class VehiculoLogic {
 	public void bajaVehicle(Vehiculo v) {
 		dataV.removeVehiculo(v);
 	}
+	
+	public Vehiculo getByPatente(String p) {
+		return dataV.getVehiculoByPatente(p);
+	}
 }

@@ -74,7 +74,7 @@ public class Conexion extends HttpServlet {
 			TurnoLogic ctrlTur = new TurnoLogic();
 			LinkedList<Turno> turnos = ctrlTur.getAll();
 			request.setAttribute("listaTurnos", turnos);
-			request.getRequestDispatcher("WEB-INF/listaPlanes.jsp").forward(request, response);
+			request.getRequestDispatcher("WEB-INF/listaTurnos.jsp").forward(request, response);
 			
 			break;
 		case "vehiculos":

@@ -195,4 +195,37 @@ public class DataVehiculo {
 			}
 		}
 	}
+	
+	public Vehiculo getVehiculoByPatente(String p) {
+	    Vehiculo v = null;
+	    PreparedStatement stmt = null;
+	    ResultSet rs = null;
+	    try {
+	        stmt = dbConnector.getInstancia().getConn().prepareStatement("SELECT * FROM vehiculo WHERE patente = ?");
+	        stmt.setString(1, p);
+	        rs = stmt.executeQuery();
+	        if (rs != null && rs.next()) {
+	            v = new Vehiculo();
+	            v.setId_vehiculo(rs.getInt("id_vehiculo"));
+	            v.setPatente(rs.getString("patente"));
+	            v.setMarca(rs.getString("marca"));
+	            v.setModelo(rs.getString("modelo"));
+	            v.setAño(rs.getInt("año"));
+	            v.setColor(rs.getString("color"));
+	            v.setInfoAdicional(rs.getString("info_adicional"));
+	            v.setId_vehiculo(rs.getInt("id_usuario"));
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        try {
+	            if (rs != null) rs.close();
+	            if (stmt != null) stmt.close();
+	            dbConnector.getInstancia().releaseConn();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	    }
+	    return v;
+	}
 }

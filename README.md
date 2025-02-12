@@ -30,9 +30,14 @@ El mecánico tendrá acceso al menú de administrador en el cual puede ver vehí
 |ABMC|todos|Usuario<br>Vehículo<br>Turno<br>Trabajo<br>Repuesto
 |CU "Complejo"(nivel resumen)|1|Realización del trabajo mecánico:<br>Sacar turno<br>Ingreso del vehículo<br>Realización del trabajo<br>Retiro del vehículo
 |Listado complejo|1| Listado de todos los trabajos de un tipo realizados a un vehículo.
-|Nivel de acceso|3| Invitado<br>Usuario<br>Mecánico (Admninistrador)
+|Nivel de acceso|3| Invitado<br>Usuario<br>Mecánico (Administrador)
 |Manejo de errores|obligatorio|||
 |requerimiento extra obligatorio|1|Envío de emails|
 |publicar el sitio|olbigatorio|||
 
 
+
+## Notas adicionales / Críticas constructivas
+Estas son notas para dejar constancia de cosas que fui dandome cuenta al programar, son más cuestiones de contrucción del modelo más que de otra cosa.
+La clase Turno no debería tener como clave principal también al atributo "Hora" pues es indistinto si dos vehículos sacan turno a la misma hora y un vehículo, normalmente, no va a sacar dos turnos para el mismo día.
+La clase Vehículo no necesariamente debería llevar un ID ya que el identificador más común es la patente. Raro sería el caso en el que dos vehículos tengan la misma patente.

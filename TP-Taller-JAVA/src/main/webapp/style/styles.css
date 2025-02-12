@@ -34,3 +34,7 @@
     background-color: mediumpurple;
 }
 
+li {
+    color: black !important;
+    display: block !important;
+}

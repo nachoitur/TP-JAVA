@@ -27,4 +27,8 @@ public class TrabajoLogic {
 	public void bajaTrabajo(Trabajo t) {
 		dataT.remove(t);
 	}
+	
+	public Trabajo getTrabajoByDescripcion(String d) {
+		return dataT.getByDesc(d);
+	}
 }

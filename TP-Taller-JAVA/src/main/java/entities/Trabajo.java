@@ -50,6 +50,14 @@ public class Trabajo {
 	public void setRepuestos(Repuesto repuesto) {
 		this.repuestos.add(repuesto);
 	}
+	
+	public float getTotalRepuestos() {
+		float total = 0;
+		for(Repuesto r: getRepuestos()) {
+			total += r.getPrecio();
+		}
+		return total;
+	}
 
 	public String toString() {
 		return "Trabajo [id_trabajo=" + id_trabajo + ", tipo_trabajo=" + tipo_trabajo + ", descripcion=" + descripcion
