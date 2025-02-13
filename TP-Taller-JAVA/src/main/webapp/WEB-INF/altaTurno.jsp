@@ -198,7 +198,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Crear elemento <li> con contenido visible
         let li = document.createElement("li");
-        li.textContent = descripcion + " - $" + totalTrabajo.toFixed(2) + " ";
+        li.textContent = descripcion + " || Costo mano de obra: $" + precio.toFixed(2) + " + Costo repuestos: " + repuestoPrecio.toFixed(2) + " || TOTAL: $" + totalTrabajo.toFixed(2) + " ";
 
         let eliminarBtn = document.createElement("button");
         eliminarBtn.textContent = "X";
@@ -236,7 +236,7 @@ document.addEventListener("DOMContentLoaded", function () {
         
 		// Revisa que el vehiculo ingresado esté registrado
         if (!vehiculosDisponibles.includes(vehiculoSeleccionado)) {
-            alert("El vehículo ingresado no está registrado.");
+            alert("Debes elegir un vehículo registrado en la lista, el vehículo ingresado no está registrado.");
             e.preventDefault(); // Evita que se envíe el formulario
             return;
         }

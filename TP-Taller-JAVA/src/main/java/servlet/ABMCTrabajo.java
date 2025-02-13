@@ -42,6 +42,7 @@ public class ABMCTrabajo extends HttpServlet {
     	
     	UsuarioLogic ctrlUsu = new UsuarioLogic();
         TrabajoLogic ctrlTrabajo = new TrabajoLogic();
+        LinkedList<Trabajo> trabajos= ctrlTrabajo.getAll();
 
         String bandera = "";
         String opcion = request.getParameter("optionBM");
@@ -67,9 +68,9 @@ public class ABMCTrabajo extends HttpServlet {
             		request.getRequestDispatcher("WEB-INF/altaTrabajo.jsp").forward(request, response);
             	}
             	else {
-            		String tipoTrabajo = request.getParameter("tipoTrabajo");
+            		String tipoTrabajo = request.getParameter("selectTipoTrabajo");
             		String descripcion = request.getParameter("descripcion");
-            		float costoManoObra = Float.parseFloat(request.getParameter("costoManoObra"));
+            		float costoManoObra = Float.parseFloat(request.getParameter("cdo"));
             		
             		Trabajo tra = new Trabajo();
             		tra.setTipo_trabajo(tipoTrabajo);
@@ -79,6 +80,7 @@ public class ABMCTrabajo extends HttpServlet {
             		try {
     					ctrlTrabajo.altaTrabajo(tra);
     					request.setAttribute("mensaje", "Trabajo añadido satisfactoriamente.");
+    					request.setAttribute("listaTrabajo", trabajos);
     	                request.getRequestDispatcher("WEB-INF/listaTrabajos.jsp").forward(request, response);
     						
     				} catch (Exception e) {
@@ -107,6 +109,7 @@ public class ABMCTrabajo extends HttpServlet {
 
                     ctrlTrabajo.modificarTrabajo(t);
                     request.setAttribute("mensaje", "Trabajo modificado satisfactoriamente.");
+                    request.setAttribute("listaTrabajo", trabajos);
                     request.getRequestDispatcher("WEB-INF/listaTrabajos.jsp").forward(request, response);
                 }
                 break;
@@ -114,6 +117,7 @@ public class ABMCTrabajo extends HttpServlet {
             case "baja":
                 ctrlTrabajo.bajaTrabajo(t);
                 request.setAttribute("mensaje", "Trabajo eliminado satisfactoriamente.");
+                request.setAttribute("listaTrabajo", trabajos);
                 request.getRequestDispatcher("WEB-INF/listaTrabajos.jsp").forward(request, response);
                 break;
         }

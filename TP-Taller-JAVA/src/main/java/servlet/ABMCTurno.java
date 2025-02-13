@@ -89,7 +89,7 @@ public class ABMCTurno extends HttpServlet {
             		String strHoraTurno = request.getParameter("hora");
             		String patente = request.getParameter("vehiculo");
             		String strKmact = request.getParameter("kmact");
-            		String mp = request.getParameter("medio_pago");
+            		String mp = request.getParameter("medioPago");
             		String strTot = request.getParameter("total");
             		String trabajosStr = request.getParameter("trabajosSeleccionados");
             		

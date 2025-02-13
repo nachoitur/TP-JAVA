@@ -46,13 +46,13 @@
 			</div>
 			
 			<div class="form-group row ">
-				<label for="inputDescripcion" class="col-2"> Descripción</label>
-				<input id="inputDescripcion" name="descripcion" class="form-control col-8"  type="text" required>
+				<label for="descripcion" class="col-2"> Descripción: </label>
+				<input id="descripcion" name="descripcion" class="form-control col-8"  type="text" required>
 			</div>
 			
 			<div class="form-group row ">
-				<label for="inputPrecio" class="col-2"> Precio</label>
-				<input id="inputPrecio" name="precio" class="form-control col-8"  type="number" step="any" required>
+				<label for="cdo" class="col-2"> Costo mano de obra: </label>
+				<input id="cdo" name="cdo" class="form-control col-8"  type="number" step="any" required>
 			</div>
 			
 			<div class="col-auto">
