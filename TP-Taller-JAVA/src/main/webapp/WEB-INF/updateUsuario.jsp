@@ -14,28 +14,32 @@
 </head>
 <body>
 	<%@ include file="/WEB-INF/MenuContextualAdmin.jsp"%>
-	<h1>Modificacion</h1>
+
 	<div class="container">
+
+	<h1>Modificacion</h1>	
+	<h3>Usuario a modificar: <%=u.getNombre_usuario()%></h3>
 	
 	<form action="ABMCUsuario" method="post">
+			<input type="hidden" class="custom-control-input" name="id" value="<%=u.getId_usuario()%>">
 			<div class="form-group  ">
 				<label for="inputNombre" class="" > Nombre</label>
-				<input id="inputNombre" name="nombre" class="form-control " value="<%=u.getNombre()%>" type="text" required>
+				<input id="inputNombre" name="nombre" class="form-control" placeholder="<%=u.getNombre()%>" value="<%=u.getNombre()%>" type="text" required>
 			</div>
 			
 			<div class="form-group  ">
 				<label for="inputApellido" class=""> Apellido</label>
-				<input id="inputApellido" name="apellido" class="form-control " value="<%=u.getApellido() %>" type="text" required>
+				<input id="inputApellido" name="apellido" class="form-control" placeholder="<%=u.getApellido()%>" value="<%=u.getApellido() %>" type="text" required>
 			</div>
 			
 			<div class="form-group ">
 				<label for="inputTelefono" class=""> Telefono</label>
-				<input id="inputTelefono" name="telefono" class="form-control" value="<%=u.getTelefono()%>"  type="text" required>
+				<input id="inputTelefono" name="telefono" class="form-control" placeholder="<%=u.getTelefono()%>" value="<%=u.getTelefono()%>"  type="text" required>
 			</div>
 			
 			<div class="form-group">
 				<label for="selectTipo_doc"> Tipo documento</label>
-				<select class="form-select" name="selectTipo_doc" required>
+				<select class="form-select" name="selectTipo_doc" selected="<%=u.getTipo_doc()%>" required>
 					<option> Seleccione uno...</option>
 					<option selected value="dni">DNI</option>
 					<option value="pasaporte">Pasaporte</option>
@@ -45,32 +49,32 @@
 			
 			<div class="form-group row ">
 				<label for="inputNumDoc" class="col-3"> Numero Documento</label>
-				<input id="inputNumDoc" name="num_doc" class="form-control col-7"  value="<%=u.getNum_doc() %>" type="number" required>
+				<input id="inputNumDoc" name="num_doc" class="form-control col-7" placeholder="<%=u.getNum_doc()%>" value="<%=u.getNum_doc() %>" type="number" required>
 			</div>
 			
 			<div class="form-group row ">
 				<label for="inputEmail" class="col-2"> Email</label>
-				<input id="inputEmail" name="email" class="form-control col-8" value="<%=u.getEmail() %>" type="email">
+				<input id="inputEmail" name="email" class="form-control col-8" placeholder="<%=u.getEmail()%>" value="<%=u.getEmail() %>" type="email">
 			</div>
 			
 			<div class="form-group row ">
 				<label for="inputDireccion" class="col-2"> Direccion</label>
-				<input id="inputDireccion" name="direccion" class="form-control col-8" value="<%=u.getDireccion() %>" type="text">
+				<input id="inputDireccion" name="direccion" class="form-control col-8" placeholder="<%=u.getDireccion()%>" value="<%=u.getDireccion() %>" type="text">
 			</div>
 			
 			<div class="form-group row ">
 				<label for="inputNombreU" class="col-4"> Nombre de usuario</label>
-				<input id="inputNombreU" name="nombre_usuario" class="form-control col-6" value="<%=u.getNombre_usuario() %>" type="text" required>
+				<input id="inputNombreU" name="nombre_usuario" class="form-control col-6" placeholder="<%=u.getNombre_usuario()%>" value="<%=u.getNombre_usuario() %>" type="text" required>
 			</div>
 			
 			<div class="form-group row ">
 				<label for="inputContra" class="col-3"> Contraseña</label>
-				<input id="inputContra" name="contraseña" class="form-control col-7" value="<%=u.getContraseña() %>" type="password" required>
+				<input id="inputContra" name="contraseña" class="form-control col-7" placeholder="<%=u.getContraseña()%>" value="<%=u.getContraseña() %>" type="password" required>
 			</div>
 			
 			<div class="form-group row ">
 				<label for="inputContraRep" class="col-3"> Repita Contraseña</label>
-				<input id="inputContraRep" name="contraseñaRepetida" class="form-control col-7" value="<%=u.getContraseña() %>" type="password" required>
+				<input id="inputContraRep" name="contraseñaRepetida" class="form-control col-7" placeholder="<%=u.getContraseña()%>" value="<%=u.getContraseña() %>" type="password" required>
 			</div>
 	
 	

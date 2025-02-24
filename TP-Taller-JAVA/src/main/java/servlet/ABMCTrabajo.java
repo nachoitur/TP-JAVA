@@ -10,8 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import entities.Trabajo;
 import entities.Usuario;
+import entities.Vehiculo;
+import entities.Repuesto;
 import logic.TrabajoLogic;
+import logic.RepuestoLogic;
 import logic.UsuarioLogic;
+import logic.VehiculoLogic;
 
 /**
  * Servlet implementation class ABMCTrabajo
@@ -30,9 +34,6 @@ public class ABMCTrabajo extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		TrabajoLogic ctrlTrabajo = new TrabajoLogic();
-		LinkedList<Trabajo> trabajos= ctrlTrabajo.getAll();
-		request.setAttribute("listaTrabajo", trabajos);
 		request.getRequestDispatcher("WEB-INF/listaTrabajos.jsp").forward(request, response);
 	}
     /**
@@ -42,7 +43,6 @@ public class ABMCTrabajo extends HttpServlet {
     	
     	UsuarioLogic ctrlUsu = new UsuarioLogic();
         TrabajoLogic ctrlTrabajo = new TrabajoLogic();
-        LinkedList<Trabajo> trabajos= ctrlTrabajo.getAll();
 
         String bandera = "";
         String opcion = request.getParameter("optionBM");
@@ -60,6 +60,12 @@ public class ABMCTrabajo extends HttpServlet {
             t = new Trabajo();
             request.setAttribute("trabajo", t);
         }
+        
+        if ((opcion.equalsIgnoreCase("alta")) || (opcion.equalsIgnoreCase("modificacion"))) {
+        	RepuestoLogic ctrlRep = new RepuestoLogic();
+            LinkedList<Repuesto> repuestos = ctrlRep.getAll();
+			request.setAttribute("repuestos", repuestos);
+        }
 
         switch (opcion) {
             case "alta":
@@ -71,17 +77,29 @@ public class ABMCTrabajo extends HttpServlet {
             		String tipoTrabajo = request.getParameter("selectTipoTrabajo");
             		String descripcion = request.getParameter("descripcion");
             		float costoManoObra = Float.parseFloat(request.getParameter("cdo"));
+            		String repuestosStr = request.getParameter("repuestosSeleccionados");
             		
             		Trabajo tra = new Trabajo();
             		tra.setTipo_trabajo(tipoTrabajo);
             		tra.setDescripcion(descripcion);
             		tra.setCosto_mdo(costoManoObra);
             		
+            		// Asignacion de repuestos
+                    if (repuestosStr != null && !repuestosStr.isEmpty()) {
+                        String[] repuestosDescripciones = repuestosStr.split(",");
+                        for (String des : repuestosDescripciones) {
+                        	RepuestoLogic R = new RepuestoLogic();
+                            Repuesto re = R.getRepuestoByDescripcion(des.trim());
+                            if (re != null) {
+                                tra.setRepuestos(re);
+                            }
+                        }
+                    }
+            		
             		try {
-    					ctrlTrabajo.altaTrabajo(tra);
-    					request.setAttribute("mensaje", "Trabajo añadido satisfactoriamente.");
-    					request.setAttribute("listaTrabajo", trabajos);
-    	                request.getRequestDispatcher("WEB-INF/listaTrabajos.jsp").forward(request, response);
+            			ctrlTrabajo.altaTrabajo(tra);
+            			request.setAttribute("mensaje", "Trabajo añadido satisfactoriamente.");
+    					request.getRequestDispatcher("WEB-INF/listaTrabajos.jsp").forward(request, response);
     						
     				} catch (Exception e) {
     					String msg=e.getMessage();
@@ -99,27 +117,35 @@ public class ABMCTrabajo extends HttpServlet {
                 if (bandera.equalsIgnoreCase("aModificar")) {
                     request.getRequestDispatcher("WEB-INF/updateTrabajo.jsp").forward(request, response);
                 } else {
-                    String tipoTrabajo = request.getParameter("tipo_trabajo");
-                    String descripcion = request.getParameter("descripcion");
-                    float costoMdo = Float.parseFloat(request.getParameter("costo_mdo"));
+                    String tipoTrabajo = request.getParameter("selectTipoTrabajo");
+                    String descripcion = request.getParameter("inputDescripcion");
+                    float costoMdo = Float.parseFloat(request.getParameter("inputPrecio"));
 
                     t.setTipo_trabajo(tipoTrabajo);
                     t.setDescripcion(descripcion);
                     t.setCosto_mdo(costoMdo);
 
-                    ctrlTrabajo.modificarTrabajo(t);
-                    request.setAttribute("mensaje", "Trabajo modificado satisfactoriamente.");
-                    request.setAttribute("listaTrabajo", trabajos);
-                    request.getRequestDispatcher("WEB-INF/listaTrabajos.jsp").forward(request, response);
+                    try {
+                    	ctrlTrabajo.modificarTrabajo(t);
+                        request.setAttribute("mensaje", "Trabajo modificado satisfactoriamente.");
+                        request.getRequestDispatcher("WEB-INF/listaTrabajos.jsp").forward(request, response);	
+                    } catch (Exception e){
+                    	String msg=e.getMessage();
+    					response.getWriter().append("Error ").append(msg);
+                    }
                 }
                 break;
 
             case "baja":
-                ctrlTrabajo.bajaTrabajo(t);
-                request.setAttribute("mensaje", "Trabajo eliminado satisfactoriamente.");
-                request.setAttribute("listaTrabajo", trabajos);
-                request.getRequestDispatcher("WEB-INF/listaTrabajos.jsp").forward(request, response);
-                break;
+            	try {
+            		ctrlTrabajo.bajaTrabajo(t);
+                    request.setAttribute("mensaje", "Trabajo eliminado satisfactoriamente.");
+                    request.getRequestDispatcher("WEB-INF/listaTrabajos.jsp").forward(request, response);
+                    break;
+            	} catch (Exception e) {
+            		String msg=e.getMessage();
+					response.getWriter().append("Error ").append(msg);
+            	}
         }
     }
 }

@@ -28,7 +28,8 @@ public class DataTurno {
                     Turno t = new Turno();
                     t.setFecha(rs.getDate("fecha_turno").toLocalDate());
                     t.setHora(rs.getTime("hora_turno").toLocalTime());
-                    t.setVehiculo(dv.getVehiculoById(rs.getInt("id_vehiculo")));
+                    int idveh = rs.getInt("id_vehiculo");
+                    t.setVehiculo(dv.getVehiculoById(idveh));
                     t.setKm_actuales(rs.getInt("km_actuales"));
                     t.setEstado(rs.getString("estado"));
                     t.setMedio_pago(rs.getString("medio_pago"));
@@ -140,6 +141,24 @@ public class DataTurno {
             stmt.setTime(6, java.sql.Time.valueOf(t.getHora()));
             stmt.setInt(7, t.getVehiculo().getId_vehiculo());
             stmt.executeUpdate();
+            
+            stmt = dbConnector.getInstancia().getConn().prepareStatement(
+                    "DELETE FROM trabajo_turno WHERE fecha_turno=? AND hora_turno=? AND id_vehiculo=?");
+            stmt.setDate(1, java.sql.Date.valueOf(t.getFecha()));
+            stmt.setTime(2, java.sql.Time.valueOf(t.getHora()));
+            stmt.setInt(3, t.getVehiculo().getId_vehiculo());
+            stmt.executeUpdate();
+            
+            for(Trabajo tr: t.getTrabajos()) {
+            	stmt = dbConnector.getInstancia().getConn().prepareStatement("INSERT INTO trabajo_turno(id_trabajo,"
+                		+ "fecha_turno, hora_turno, id_vehiculo) VALUES (?,?,?,?)");
+                stmt.setInt(1, tr.getId_trabajo());
+                stmt.setDate(2, java.sql.Date.valueOf(t.getFecha()));
+                stmt.setTime(3, java.sql.Time.valueOf(t.getHora()));
+                stmt.setInt(4, t.getVehiculo().getId_vehiculo());
+                stmt.executeUpdate();
+            }
+            
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -155,6 +174,15 @@ public class DataTurno {
     public void remove(Turno t) {
         PreparedStatement stmt = null;
         try {
+        	// Elimino primero trabajo_turno
+        	stmt = dbConnector.getInstancia().getConn().prepareStatement("DELETE FROM trabajo_turno WHERE fecha_turno=?"
+            		+ "AND hora_turno=? AND id_vehiculo=?");
+            stmt.setDate(1, java.sql.Date.valueOf(t.getFecha()));
+            stmt.setTime(2, java.sql.Time.valueOf(t.getHora()));
+            stmt.setInt(3, t.getVehiculo().getId_vehiculo());
+            stmt.executeUpdate();
+            
+            // Luego el turno en sí
             stmt = dbConnector.getInstancia().getConn().prepareStatement("DELETE FROM turno WHERE fecha_turno=?"
             		+ "AND hora_turno=? AND id_vehiculo=?");
             stmt.setDate(1, java.sql.Date.valueOf(t.getFecha()));

@@ -3,6 +3,7 @@
 <%@page import="entities.Turno"%>
 <%@page import="entities.Vehiculo"%>
 <%@page import="entities.Trabajo"%>
+<%@page import="logic.TurnoLogic"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -12,7 +13,9 @@
 <title>Lista Turnos</title>
 <%
 Usuario userLogin = (Usuario)session.getAttribute("usuarioLogin");
-LinkedList<Turno> shiftlist = (LinkedList<Turno>)request.getAttribute("listaTurnos");
+//LinkedList<Turno> shiftlist = (LinkedList<Turno>)request.getAttribute("listaTurnos");
+TurnoLogic trl = new TurnoLogic();
+LinkedList<Turno> shiftlist = trl.getAll();
 %>
 
 <!-- Bootstrap core CSS -->
@@ -22,6 +25,12 @@ LinkedList<Turno> shiftlist = (LinkedList<Turno>)request.getAttribute("listaTurn
 </head>
 <body>
 	<%@ include file="/WEB-INF/MenuContextualAdmin.jsp"%>
+	<div <%= request.getAttribute("mensaje")==null ? "hidden": ""%> class="alert alert-danger alert-dismissible">
+            <p><%= request.getAttribute("mensaje") %></p>
+            <button type="button" class="close" data-dismiss="alert">
+              <span>x</span>
+            </button>
+    </div> 
 	<div class="container">
     <div class="tab-content">
 		<div class="tab-pane fade show active" id="opcion1">

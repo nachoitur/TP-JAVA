@@ -12,7 +12,11 @@ import entities.Turno;
 import entities.Usuario;
 import entities.Vehiculo;
 import entities.Trabajo;
+
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 import logic.TrabajoLogic;
 import logic.TurnoLogic;
@@ -36,9 +40,6 @@ public class ABMCTurno extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 
-		TurnoLogic ctrlTurno = new TurnoLogic();
-		LinkedList<Turno> turnos = ctrlTurno.getAll();
-		request.setAttribute("listaTurnos", turnos);
 		request.getRequestDispatcher("WEB-INF/listaTurnos.jsp").forward(request, response);
 	}
 
@@ -63,6 +64,9 @@ public class ABMCTurno extends HttpServlet {
         	LocalTime horaTurno = LocalTime.parse(request.getParameter("horaTurno"));
         	Integer idVehiculo = Integer.parseInt(request.getParameter("idVehiculo"));
             t = ctrlTurno.getByKeys(fechaTurno, horaTurno, idVehiculo);
+            if (t == null) {
+                System.out.println("ERROR: No se encontró el turno");
+            }
             request.setAttribute("turno", t);
         } else {
             t = new Turno();
@@ -71,11 +75,13 @@ public class ABMCTurno extends HttpServlet {
         
         if ((opcion.equalsIgnoreCase("alta")) || (opcion.equalsIgnoreCase("modificacion"))) {
         	TrabajoLogic T = new TrabajoLogic();
-			VehiculoLogic V = new VehiculoLogic();
 			LinkedList<Trabajo> ts = T.getAll();
-			LinkedList<Vehiculo> vs = V.getAll();
 			request.setAttribute("trabajos", ts);
-			request.setAttribute("vehiculos", vs);
+			if (opcion.equalsIgnoreCase("alta")) {
+				VehiculoLogic V = new VehiculoLogic();
+				LinkedList<Vehiculo> vs = V.getAll();
+				request.setAttribute("vehiculos", vs);
+			}
         }
 
         switch (opcion) {
@@ -117,10 +123,10 @@ public class ABMCTurno extends HttpServlet {
                     }
                     
                     try {
-    					ctrlTurno.altaTurno(t);
-    					request.setAttribute("mensaje", "Turno añadido satisfactoriamente.");
-    	                request.getRequestDispatcher("WEB-INF/listaTurnos.jsp").forward(request, response);
-    						
+                    	ctrlTurno.altaTurno(t);
+                    	request.setAttribute("mensaje", "Turno añadido satisfactoriamente.");
+    					request.getRequestDispatcher("WEB-INF/listaTurnos.jsp").forward(request, response);
+
     				} catch (Exception e) {
     					String msg=e.getMessage();
     					response.getWriter().append("Error ").append(msg);
@@ -134,30 +140,82 @@ public class ABMCTurno extends HttpServlet {
 
             case "modificacion":
                 bandera = request.getParameter("bandera");
-
                 if (bandera.equalsIgnoreCase("aModificar")) {
                     request.getRequestDispatcher("WEB-INF/updateTurno.jsp").forward(request, response);
                 } else {
-                    String kmActuales = request.getParameter("km_actuales");
+                    String kmActuales = request.getParameter("kmact");
+                    String medioPago = request.getParameter("medioPago");
                     String estado = request.getParameter("estado");
-                    String medioPago = request.getParameter("medio_pago");
                     String total = request.getParameter("total");
 
                     t.setKm_actuales(Integer.parseInt(kmActuales));
-                    t.setEstado(estado);
                     t.setMedio_pago(medioPago);
                     t.setTotal(Float.parseFloat(total));
+                    t.setEstado(estado);
+                    
+                    // Lógica para los trabajos
+                    String[] trabajosIds = request.getParameterValues("trabajos[]");
+                    System.out.println("Trabajos recuperados (si los hay): " + trabajosIds);
+                    
+                    LinkedList<Trabajo> trabajosActuales = t.getTrabajos();
+                    LinkedList<Trabajo> trabajosAIncluir = new LinkedList<>();
+                    LinkedList<Trabajo> trabajosAEliminar = new LinkedList<>();
+                    
+                    TrabajoLogic trabajoLogic = new TrabajoLogic();
+                    
+                    Map<Integer, Trabajo> mapaTrabajosActuales = new HashMap<>();
+                    for (Trabajo trabajo : trabajosActuales) {
+                        mapaTrabajosActuales.put(trabajo.getId_trabajo(), trabajo);
+                    }
 
-                    ctrlTurno.modificarTurno(t);
-                    request.setAttribute("turno", t);
-                    request.getRequestDispatcher("WEB-INF/abmcExitoso.jsp").forward(request, response);
+                    if (trabajosIds != null) {
+                        for (String trabajoIdStr : trabajosIds) {
+                            int trabajoId = Integer.parseInt(trabajoIdStr);
+                            
+                            if (!mapaTrabajosActuales.containsKey(trabajoId)) {
+                                Trabajo nuevoTrabajo = trabajoLogic.getById(trabajoId);
+                                if (nuevoTrabajo != null) {
+                                    trabajosAIncluir.add(nuevoTrabajo);
+                                }
+                            }
+                        }
+                    }
+
+                    for (Trabajo trabajo : trabajosActuales) {
+                        if (trabajosIds == null || 
+                            !Arrays.asList(trabajosIds).contains(String.valueOf(trabajo.getId_trabajo()))) {
+                            trabajosAEliminar.add(trabajo);
+                        }
+                    }
+
+                    // Aplicar los cambios en la instancia de turno
+                    trabajosActuales.addAll(trabajosAIncluir);
+                    trabajosActuales.removeAll(trabajosAEliminar);
+                    t.resetTrabajos();
+                    for (Trabajo tra : trabajosActuales) {
+                    	t.setTrabajos(tra);
+                    }
+
+                    try {
+                    	ctrlTurno.modificarTurno(t);
+                    	request.setAttribute("mensaje", "Trabajo modificado satisfactoriamente.");
+                    	request.getRequestDispatcher("WEB-INF/listaTurnos.jsp").forward(request, response);	
+                    } catch (Exception e) {
+                    	String msg=e.getMessage();
+    					response.getWriter().append("Error ").append(msg);
+                    }
                 }
                 break;
 
             case "baja":
-                ctrlTurno.bajaTurno(t);
-                request.getRequestDispatcher("WEB-INF/abmcExitoso.jsp").forward(request, response);
-                break;
+            	try {
+            		ctrlTurno.bajaTurno(t);
+            		request.setAttribute("mensaje", "Trabajo eliminado satisfactoriamente.");
+                    request.getRequestDispatcher("WEB-INF/listaTurnos.jsp").forward(request, response);
+                    break;	
+            	} catch (Exception e) {
+            		
+            	}
         }
     }
 }

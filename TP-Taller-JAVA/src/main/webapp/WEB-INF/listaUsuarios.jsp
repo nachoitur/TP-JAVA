@@ -1,5 +1,6 @@
 <%@page import="java.util.LinkedList"%>
 <%@page import="entities.Usuario"%>
+<%@page import="logic.UsuarioLogic"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -9,7 +10,8 @@
 <title>Lista Usuarios</title>
 <%
 Usuario userLogin = (Usuario)session.getAttribute("usuarioLogin");
-LinkedList<Usuario> userlist = (LinkedList<Usuario>)request.getAttribute("listaUsuarios");
+UsuarioLogic ctrlUsu = new UsuarioLogic();
+LinkedList<Usuario> userlist = ctrlUsu.getAll();
 %>
 
 <!-- Bootstrap core CSS -->

@@ -18,8 +18,8 @@
     <% LinkedList<Trabajo> trabajos = (LinkedList<Trabajo>)request.getAttribute("trabajos"); %>
 </head>
 <body>
+	<%@ include file="/WEB-INF/MenuContextualAdmin.jsp" %>
     <div class="container">
-        <%@ include file="/WEB-INF/MenuContextualAdmin.jsp" %>
         <h1 class="text-center mt-2">Registro Turno</h1>
 
         <form action="ABMCTurno" method="post" class="form-registro">
@@ -243,5 +243,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 </script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -8,6 +8,7 @@ import java.util.LinkedList;
 
 import entities.Trabajo;
 import entities.Turno;
+import entities.Repuesto;
 
 public class DataTrabajo {
 
@@ -87,10 +88,18 @@ public class DataTrabajo {
             stmt.setString(2, t.getDescripcion());
             stmt.setFloat(3, t.getCosto_mdo());
             stmt.executeUpdate();
-
+            
             keyResultSet = stmt.getGeneratedKeys();
             if (keyResultSet != null && keyResultSet.next()) {
                 t.setId_trabajo(keyResultSet.getInt(1));
+            }
+            
+            for(Repuesto r : t.getRepuestos()) {
+            	stmt = dbConnector.getInstancia().getConn().prepareStatement("INSERT INTO trabajo_repuesto"
+            			+ "(id_trabajo, id_repuesto) VALUES(?, ?)");
+                stmt.setInt(1, t.getId_trabajo());
+                stmt.setInt(2, r.getId_repuesto());
+                stmt.executeUpdate();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -130,6 +139,10 @@ public class DataTrabajo {
     public void remove(Trabajo t) {
         PreparedStatement stmt = null;
         try {
+        	stmt = dbConnector.getInstancia().getConn().prepareStatement("DELETE FROM trabajo_repuesto WHERE id_trabajo=?");
+        	stmt.setInt(1, t.getId_trabajo());
+            stmt.executeUpdate();
+            
             stmt = dbConnector.getInstancia().getConn().prepareStatement("DELETE FROM trabajo WHERE id_trabajo=?");
             stmt.setInt(1, t.getId_trabajo());
             stmt.executeUpdate();
@@ -150,16 +163,16 @@ public class DataTrabajo {
 		ResultSet rs=null;
 		DataRepuesto dr = new DataRepuesto();
 		try {
-			stmt=dbConnector.getInstancia().getConn().prepareStatement("SELECT tr.*\r\n"
-					+ "FROM trabajo tr\r\n"
-					+ "INNER JOIN trabajo_turno tut\r\n"
-					+ "ON tr.id_trabajo=tut.id_trabajo\r\n"
-					+ "INNER JOIN turno tu\r\n"
-					+ "ON tut.fecha_turno=tu.fecha_turno\r\n"
-					+ "AND tut.hora_turno=tu.hora_turno\r\n"
-					+ "AND tut.id_vehiculo=tu.id_vehiculo\r\n"
-					+ "WHERE tu.id_vehiculo=?");
-			stmt.setInt(1, t.getVehiculo().getId_vehiculo());
+			stmt=dbConnector.getInstancia().getConn().prepareStatement("SELECT tr.* FROM trabajo tr "
+					+ "INNER JOIN trabajo_turno tut ON tr.id_trabajo=tut.id_trabajo "
+					+ "WHERE tut.fecha_turno=? AND tut.hora_turno=? AND tut.id_vehiculo=?");
+			
+			int id = t.getVehiculo().getId_vehiculo();
+			
+			stmt.setDate(1,java.sql.Date.valueOf(t.getFecha()));
+            stmt.setTime(2, java.sql.Time.valueOf(t.getHora()));
+			stmt.setInt(3, id);
+			
 			rs= stmt.executeQuery();
 			if(rs!=null) {
 				while(rs.next()) {
@@ -169,9 +182,11 @@ public class DataTrabajo {
                     tra.setDescripcion(rs.getString("descripcion"));
                     tra.setCosto_mdo(rs.getFloat("costoManoObra"));
 		            dr.setRepuestos(tra);
-				}
+		            t.setTrabajos(tra);
+		        }
+			}else {
+				System.out.println("puto");
 			}
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {

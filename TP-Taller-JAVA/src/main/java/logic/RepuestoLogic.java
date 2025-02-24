@@ -27,4 +27,8 @@ public class RepuestoLogic {
 	public void bajaRepuesto(Repuesto r) {
 		dataT.removeRepuesto(r);
 	}
+	
+	public Repuesto getRepuestoByDescripcion(String de) {
+		return dataT.getByDesc(de);
+	}
 }

@@ -58,6 +58,10 @@ public class Trabajo {
 		}
 		return total;
 	}
+	
+	public float getTotal() {
+		return this.getCosto_mdo() + this.getTotalRepuestos();
+	}
 
 	public String toString() {
 		return "Trabajo [id_trabajo=" + id_trabajo + ", tipo_trabajo=" + tipo_trabajo + ", descripcion=" + descripcion

@@ -52,42 +52,24 @@ public class Conexion extends HttpServlet {
 		
 		switch (opcion) {
 		case "usuarios": {
-			LinkedList<Usuario> users = ctrlUsu.getAll();
-			request.setAttribute("listaUsuarios", users);
 			request.getRequestDispatcher("WEB-INF/listaUsuarios.jsp").forward(request, response);
 			break;
 		}
 		case "repuestos":
-			RepuestoLogic ctrlRep = new RepuestoLogic();
-			LinkedList<Repuesto> repuestos = ctrlRep.getAll();
-			request.setAttribute("listaRepuestos", repuestos);
 			request.getRequestDispatcher("WEB-INF/listaRepuestos.jsp").forward(request, response);
 			break;
 		case "trabajos":
-			TrabajoLogic ctrlTra = new TrabajoLogic();
-			LinkedList<Trabajo> trabajos = ctrlTra.getAll();
-			request.setAttribute("listaTrabajos", trabajos);
 			request.getRequestDispatcher("WEB-INF/listaTrabajos.jsp").forward(request, response);
 			break;
 			
 		case "turnos":
-			TurnoLogic ctrlTur = new TurnoLogic();
-			LinkedList<Turno> turnos = ctrlTur.getAll();
-			request.setAttribute("listaTurnos", turnos);
 			request.getRequestDispatcher("WEB-INF/listaTurnos.jsp").forward(request, response);
-			
 			break;
 		case "vehiculos":
-			VehiculoLogic ctrlVeh = new VehiculoLogic();
-			LinkedList<Vehiculo> vehiculos = ctrlVeh.getAll();
-			request.setAttribute("listaVehiculos", vehiculos);
 			request.getRequestDispatcher("WEB-INF/listaVehiculos.jsp").forward(request, response);
 			break;
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + opcion);
 		}
-
-		
 	}
-
 }

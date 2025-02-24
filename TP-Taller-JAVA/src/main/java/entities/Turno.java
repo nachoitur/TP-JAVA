@@ -70,6 +70,9 @@ public class Turno {
 	public void setTrabajos(Trabajo trabajo) {
 		this.trabajos.add(trabajo);
 	}
+	public void resetTrabajos() {
+		this.trabajos = new LinkedList<Trabajo>();
+	}
 	public Vehiculo getVehiculo() {
 		return vehiculo;
 	}

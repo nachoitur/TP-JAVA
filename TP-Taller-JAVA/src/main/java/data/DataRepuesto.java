@@ -179,4 +179,33 @@ public class DataRepuesto {
 			}
 		}
 	}
+	
+	public Repuesto getByDesc(String des) {
+        Repuesto r = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = dbConnector.getInstancia().getConn().prepareStatement("SELECT * FROM repuesto WHERE descripcion=?");
+            stmt.setString(1, des);
+            rs = stmt.executeQuery();
+            if (rs != null && rs.next()) {
+                r = new Repuesto();
+                r.setId_repuesto(rs.getInt("id_repuesto"));
+                r.setDescripcion(rs.getString("descripcion"));
+                r.setPrecio(rs.getFloat("precio"));
+                r.setStock(rs.getInt("stock"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                dbConnector.getInstancia().releaseConn();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return r;
+    }
 }

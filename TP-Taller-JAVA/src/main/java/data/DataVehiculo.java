@@ -29,7 +29,6 @@ public class DataVehiculo {
 	                v.setAño(rs.getInt("año"));
 	                v.setColor(rs.getString("color"));
 	                v.setInfoAdicional(rs.getString("info_adicional"));
-	                v.setId_vehiculo(rs.getInt("id_usuario"));
 	                vehiculos.add(v);
 	            }
 	        }
@@ -57,14 +56,13 @@ public class DataVehiculo {
 	        rs = stmt.executeQuery();
 	        if (rs != null && rs.next()) {
 	            v = new Vehiculo();
-	            v.setId_vehiculo(rs.getInt("id_vehiculo"));
+	            v.setId_vehiculo(id);
 	            v.setPatente(rs.getString("patente"));
 	            v.setMarca(rs.getString("marca"));
 	            v.setModelo(rs.getString("modelo"));
 	            v.setAño(rs.getInt("año"));
 	            v.setColor(rs.getString("color"));
 	            v.setInfoAdicional(rs.getString("info_adicional"));
-	            v.setId_vehiculo(rs.getInt("id_usuario"));
 	        }
 	    } catch (SQLException e) {
 	        e.printStackTrace();
@@ -94,7 +92,6 @@ public class DataVehiculo {
 	        stmt.setInt(4, v.getAño());
 	        stmt.setString(5, v.getColor());
 	        stmt.setString(6, v.getInfoAdicional());
-	        stmt.setInt(7, v.getId_vehiculo());
 	        stmt.executeUpdate();
 
 	        keyResultSet = stmt.getGeneratedKeys();
@@ -213,7 +210,6 @@ public class DataVehiculo {
 	            v.setAño(rs.getInt("año"));
 	            v.setColor(rs.getString("color"));
 	            v.setInfoAdicional(rs.getString("info_adicional"));
-	            v.setId_vehiculo(rs.getInt("id_usuario"));
 	        }
 	    } catch (SQLException e) {
 	        e.printStackTrace();

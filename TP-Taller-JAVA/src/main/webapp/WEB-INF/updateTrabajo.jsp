@@ -15,14 +15,15 @@
 </head>
 <body>
 	<%@ include file="/WEB-INF/MenuContextualAdmin.jsp"%>
-	<h1>Modificacion</h1>
 	<div class="container">
+	
+	<h1>Modificacion</h1>
+	<h3>Trabajo a modificar: <%=t.getDescripcion()%></h3>
 	
 	<form action="ABMCTrabajo" method="post">
 			<div class="form-group">
 				<label for="selectTipoTrabajo">Tipo Trabajo</label>
-				<select class="form-select" name="selectTipoTrabajo">
-					<option selected> Seleccione uno</option>
+				<select class="form-select" name="selectTipoTrabajo" selected="<%=t.getTipo_trabajo()%>">
 					<option value="Mantenimiento">Mantenimiento</option>
 					<option value="Reparaciones Menores">Reparaciones Menores</option>
 					<option value="Trabajos Mayores">Trabajos Mayores</option>
@@ -34,12 +35,12 @@
 			
 			<div class="form-group row ">
 				<label for="inputDescripcion" class="col-2"> Descripción</label>
-				<input id="inputDescripcion" name="descripcion" class="form-control col-8"  type="text" required>
+				<input id="inputDescripcion" name="inputDescripcion" class="form-control col-8" placeholder="<%=t.getDescripcion()%>" value="<%=t.getDescripcion()%>" type="text" required>
 			</div>
 			
 			<div class="form-group row ">
-				<label for="inputPrecio" class="col-2"> Precio</label>
-				<input id="inputPrecio" name="precio" class="form-control col-8"  type="number" step="any" required>
+				<label for="inputPrecio" class="col-2">Costo Mano de Obra: </label>
+				<input id="inputPrecio" name="inputPrecio" class="form-control col-8" placeholder="<%=t.getCosto_mdo()%>" value="<%=t.getCosto_mdo()%>" type="number" step="any" required>
 			</div>
 	
 	

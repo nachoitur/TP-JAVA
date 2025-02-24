@@ -1,6 +1,7 @@
 <%@page import="java.util.LinkedList"%>
 <%@page import="entities.Usuario"%>
 <%@page import="entities.Trabajo"%>
+<%@page import="logic.TrabajoLogic"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -10,7 +11,9 @@
 <title>Lista Trabajos</title>
 <%
 Usuario userLogin = (Usuario)session.getAttribute("usuarioLogin");
-LinkedList<Trabajo> joblist = (LinkedList<Trabajo>)request.getAttribute("listaTrabajos");
+//LinkedList<Trabajo> joblist = (LinkedList<Trabajo>)request.getAttribute("listaTrabajos");
+TrabajoLogic ctrlTra = new TrabajoLogic();
+LinkedList<Trabajo> joblist = ctrlTra.getAll();
 %>
 
 <!-- Bootstrap core CSS -->
@@ -20,6 +23,12 @@ LinkedList<Trabajo> joblist = (LinkedList<Trabajo>)request.getAttribute("listaTr
 </head>
 <body>
 	<%@ include file="/WEB-INF/MenuContextualAdmin.jsp"%>
+	<div <%= request.getAttribute("mensaje")==null ? "hidden": ""%> class="alert alert-danger alert-dismissible">
+            <p><%= request.getAttribute("mensaje") %></p>
+            <button type="button" class="close" data-dismiss="alert">
+              <span>x</span>
+            </button>
+    </div> 
 	<div class="container">
     <div class="tab-content">
 		<div class="tab-pane fade show active" id="opcion1">
