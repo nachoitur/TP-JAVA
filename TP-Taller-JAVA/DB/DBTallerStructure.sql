@@ -1,5 +1,4 @@
-DROP DATABASE IF EXISTS `taller`;
-CREATE DATABASE `taller` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE  IF NOT EXISTS `taller` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `taller`;
 -- MySQL dump 10.13  Distrib 8.0.40, for Win64 (x86_64)
 --
@@ -31,7 +30,7 @@ CREATE TABLE `repuesto` (
   `precio` float NOT NULL,
   `stock` int NOT NULL,
   PRIMARY KEY (`id_repuesto`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -47,7 +46,7 @@ CREATE TABLE `trabajo` (
   `descripcion` varchar(50) DEFAULT NULL,
   `costoManoObra` float NOT NULL,
   PRIMARY KEY (`id_trabajo`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -81,9 +80,10 @@ CREATE TABLE `trabajo_turno` (
   `id_vehiculo` int NOT NULL,
   PRIMARY KEY (`id_trabajo`,`fecha_turno`,`hora_turno`,`id_vehiculo`),
   KEY `llaveTurnoHora_idx` (`hora_turno`),
-  KEY `keyVehiculo_idx` (`id_vehiculo`),
+  KEY `keyTurno_idx` (`hora_turno`,`fecha_turno`,`id_vehiculo`),
+  KEY `keyTurno` (`fecha_turno`,`hora_turno`,`id_vehiculo`),
   CONSTRAINT `keyTrabajo` FOREIGN KEY (`id_trabajo`) REFERENCES `trabajo` (`id_trabajo`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `keyVehiculo` FOREIGN KEY (`id_vehiculo`) REFERENCES `turno` (`id_vehiculo`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `keyTurno` FOREIGN KEY (`fecha_turno`, `hora_turno`, `id_vehiculo`) REFERENCES `turno` (`fecha_turno`, `hora_turno`, `id_vehiculo`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -162,4 +162,4 @@ CREATE TABLE `vehiculo` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-01-30 16:25:35
+-- Dump completed on 2025-02-28 11:33:58
