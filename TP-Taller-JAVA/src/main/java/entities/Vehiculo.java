@@ -8,6 +8,7 @@ public class Vehiculo {
 	private int año;
 	private String color;
 	private String infoAdicional;
+	private int id_usuario;
 	
 	
 	public Vehiculo(int id_vehiculo, String patente, String marca, String modelo, int año, String color,
@@ -65,6 +66,12 @@ public class Vehiculo {
 	}
 	public void setInfoAdicional(String infoAdicional) {
 		this.infoAdicional = infoAdicional;
+	}
+	public int getId_usuario() {
+		return this.id_usuario;
+	}
+	public void setId_usuario(int id_usuario) {
+		this.id_usuario = id_usuario;
 	}
 
 	public String toString() {

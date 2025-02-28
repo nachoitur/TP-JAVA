@@ -6,8 +6,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import entities.Repuesto;
+import entities.Usuario;
+
 import logic.RepuestoLogic;
+import logic.UsuarioLogic;
 
 /**
  * Servlet implementation class ABMCRepuesto
@@ -33,10 +37,17 @@ public class ABMCRepuesto extends HttpServlet {
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RepuestoLogic ctrlRepuesto = new RepuestoLogic();
-
+        
+    	UsuarioLogic ctrlUsuario= new UsuarioLogic();
+    	RepuestoLogic ctrlRepuesto = new RepuestoLogic();
+    	
+    	String bandera = "";
         String opcion = request.getParameter("optionBM");
         Repuesto r;
+        
+        String idUserLogin = request.getParameter("idUserLogin");
+        Usuario userLogin = ctrlUsuario.getById(Integer.parseInt(idUserLogin));
+        request.getSession().setAttribute("usuarioLogin", userLogin);
 
         if (!opcion.equalsIgnoreCase("alta")) {
             String idRepuesto = request.getParameter("idRepuesto");
@@ -49,7 +60,29 @@ public class ABMCRepuesto extends HttpServlet {
 
         switch (opcion) {
             case "alta":
-                request.getRequestDispatcher("WEB-INF/altaRepuesto.jsp").forward(request, response);
+            	bandera = request.getParameter("bandera");
+            	if (bandera.equalsIgnoreCase("aAnadir")){
+            		request.getRequestDispatcher("WEB-INF/altaRepuesto.jsp").forward(request, response);
+            	}
+            	else {
+            		String desc = request.getParameter("descripcion");
+            		String strPrecio = request.getParameter("precio");
+            		String strStock = request.getParameter("stock");
+            		
+            		r.setDescripcion(desc);
+            		r.setPrecio(Float.parseFloat(strPrecio));
+            		r.setStock(Integer.parseInt(strStock));
+            		
+            		try {
+                    	ctrlRepuesto.altaRepuesto(r);
+                    	request.setAttribute("mensaje", "Repuesto añadido satisfactoriamente.");
+    					request.getRequestDispatcher("WEB-INF/listaRepuestos.jsp").forward(request, response);
+
+    				} catch (Exception e) {
+    					String msg=e.getMessage();
+    					response.getWriter().append("Error ").append(msg);
+    				}
+            	}
                 break;
 
             case "consulta":
@@ -57,8 +90,7 @@ public class ABMCRepuesto extends HttpServlet {
                 break;
 
             case "modificacion":
-                String bandera = request.getParameter("bandera");
-
+                bandera = request.getParameter("bandera");
                 if (bandera.equalsIgnoreCase("aModificar")) {
                     request.getRequestDispatcher("WEB-INF/updateRepuesto.jsp").forward(request, response);
                 } else {
@@ -70,16 +102,27 @@ public class ABMCRepuesto extends HttpServlet {
                     r.setPrecio(Float.parseFloat(precio));
                     r.setStock(Integer.parseInt(stock));
 
-                    ctrlRepuesto.modificarRepuesto(r);
-                    request.setAttribute("repuesto", r);
-                    request.getRequestDispatcher("WEB-INF/abmcExitoso.jsp").forward(request, response);
+					try{
+						ctrlRepuesto.modificarRepuesto(r);
+						request.setAttribute("mensaje", "Repuesto modificado satisfactoriamente.");
+                    	request.getRequestDispatcher("WEB-INF/listaRepuestos.jsp").forward(request, response);
+					} catch (Exception e){
+						String msg=e.getMessage();
+    					response.getWriter().append("Error ").append(msg);
+					}
                 }
                 break;
 
             case "baja":
-                ctrlRepuesto.bajaRepuesto(r);
-                request.getRequestDispatcher("WEB-INF/abmcExitoso.jsp").forward(request, response);
-                break;
+            	try {
+            		ctrlRepuesto.bajaRepuesto(r);
+            		request.setAttribute("mensaje", "Repuesto eliminado satisfactoriamente.");
+                    request.getRequestDispatcher("WEB-INF/listaRepuestos.jsp").forward(request, response);
+                    break;	
+            	} catch (Exception e) {
+            		String msg=e.getMessage();
+					response.getWriter().append("Error ").append(msg);
+            	}
         }
     }
 }

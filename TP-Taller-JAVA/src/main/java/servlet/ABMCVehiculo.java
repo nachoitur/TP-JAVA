@@ -6,7 +6,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import entities.Usuario;
 import entities.Vehiculo;
+import logic.UsuarioLogic;
 import logic.VehiculoLogic;
 
 /**
@@ -34,10 +36,17 @@ public class ABMCVehiculo extends HttpServlet {
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        VehiculoLogic ctrlVeh = new VehiculoLogic();
+        
+    	UsuarioLogic ctrlUsu = new UsuarioLogic();
+    	VehiculoLogic ctrlVeh = new VehiculoLogic();
 
+    	String bandera = "";
         String opcion = request.getParameter("optionBM");
         Vehiculo v;
+        
+        String idUserLogin = request.getParameter("idUserLogin");
+        Usuario userLogin = ctrlUsu.getById(Integer.parseInt(idUserLogin));
+        request.getSession().setAttribute("usuarioLogin", userLogin);
 
         if (!opcion.equalsIgnoreCase("alta")) {
             String idVehiculo = request.getParameter("idVehiculo");
@@ -50,7 +59,38 @@ public class ABMCVehiculo extends HttpServlet {
 
         switch (opcion) {
             case "alta":
-                request.getRequestDispatcher("WEB-INF/altaVehiculo.jsp").forward(request, response);
+            	bandera=request.getParameter("bandera");
+            	if(bandera.equalsIgnoreCase("aAnadir")) {
+            		request.getRequestDispatcher("WEB-INF/altaVehiculo.jsp").forward(request, response);
+            	}
+            	else {
+            		String patente = request.getParameter("patente");
+            		String marca = request.getParameter("marca");
+            		String modelo = request.getParameter("modelo");
+            		String strAnio = request.getParameter("anio");
+            		String color = request.getParameter("color");
+            		String info = request.getParameter("infoAdicional");
+            		String dni = request.getParameter("dniDuenio");
+            		
+            		v.setPatente(patente);
+            		v.setMarca(marca);
+            		v.setModelo(modelo);
+            		v.setAño(Integer.parseInt(strAnio));
+            		v.setColor(color);
+            		v.setInfoAdicional(info);
+            		int id = ctrlUsu.getByDni(dni).getId_usuario();
+            		v.setId_usuario(id);
+            		
+            		try {
+                    	ctrlVeh.altaVehicle(v);
+                    	request.setAttribute("mensaje", "Vehiculo añadido satisfactoriamente.");
+    					request.getRequestDispatcher("WEB-INF/listaVehiculos.jsp").forward(request, response);
+
+    				} catch (Exception e) {
+    					String msg=e.getMessage();
+    					response.getWriter().append("Error ").append(msg);
+    				}
+            	}
                 break;
 
             case "consulta":
@@ -58,35 +98,45 @@ public class ABMCVehiculo extends HttpServlet {
                 break;
 
             case "modificacion":
-                String bandera = request.getParameter("bandera");
-
+                bandera = request.getParameter("bandera");
                 if (bandera.equalsIgnoreCase("aModificar")) {
                     request.getRequestDispatcher("WEB-INF/updateVehiculo.jsp").forward(request, response);
                 } else {
                     String patente = request.getParameter("patente");
                     String marca = request.getParameter("marca");
                     String modelo = request.getParameter("modelo");
-                    String anio = request.getParameter("anio");
+                    String strAnio = request.getParameter("anio");
                     String color = request.getParameter("color");
-                    String infoAdicional = request.getParameter("infoAdicional");
+                    String info = request.getParameter("infoAdicional");
 
                     v.setPatente(patente);
                     v.setMarca(marca);
                     v.setModelo(modelo);
-                    v.setAño(Integer.parseInt(anio));
+                    v.setAño(Integer.parseInt(strAnio));
                     v.setColor(color);
-                    v.setInfoAdicional(infoAdicional);
+                    v.setInfoAdicional(info);
 
-                    ctrlVeh.modificarVehicle(v);
-                    request.setAttribute("vehiculo", v);
-                    request.getRequestDispatcher("WEB-INF/abmcExitoso.jsp").forward(request, response);
+                    try {
+                    	ctrlVeh.modificarVehicle(v);
+                    	request.setAttribute("mensaje", "Vehiculo modificado satisfactoriamente.");
+                    	request.getRequestDispatcher("WEB-INF/listaTurnos.jsp").forward(request, response);
+                    } catch (Exception e) {
+                    	String msg=e.getMessage();
+    					response.getWriter().append("Error ").append(msg);
+                    }
                 }
                 break;
 
             case "baja":
-                ctrlVeh.bajaVehicle(v);
-                request.getRequestDispatcher("WEB-INF/abmcExitoso.jsp").forward(request, response);
-                break;
+            	try {
+            		ctrlVeh.bajaVehicle(v);
+            		request.setAttribute("mensaje", "Vehiculo eliminado satisfactoriamente.");
+                	request.getRequestDispatcher("WEB-INF/listaTurnos.jsp").forward(request, response);
+                    break;
+            	} catch (Exception e) {
+            		String msg=e.getMessage();
+					response.getWriter().append("Error ").append(msg);
+            	}
         }
     }
 }

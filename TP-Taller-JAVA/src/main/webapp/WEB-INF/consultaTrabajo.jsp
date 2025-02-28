@@ -1,6 +1,7 @@
 <%@page import="java.util.LinkedList"%>
 <%@page import="entities.Usuario"%>
 <%@page import="entities.Trabajo"%>
+<%@page import="entities.Repuesto"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -18,7 +19,7 @@
 Trabajo t =(Trabajo)request.getAttribute("trabajo");
  %>  
    
-<title>Trabajo <%=t.getId_trabajo()%></title>
+<title>Consulta Trabajo</title>
 
 <!-- Bootstrap core CSS -->
 <link href="style/bootstrap.css" rel="stylesheet">
@@ -27,7 +28,9 @@ Trabajo t =(Trabajo)request.getAttribute("trabajo");
 </head>
 <body>
 	<div class="comeabcck">
-	<%@ include file="/WEB-INF/MenuContextualAdmin.jsp"%>
+		<%@ include file="/WEB-INF/MenuContextualAdmin.jsp"%>
+	</div>
+	<div>
 		<form action="Conexion" method="post">
 			<input type="hidden" class="custom-control-input"  name="idUserLogin" value="<%=userLogin.getId_usuario()%>">
 			<button class="btn btn-primary" type="submit" name="optionBM" value="trabajos">Volver</button>
@@ -58,6 +61,31 @@ Trabajo t =(Trabajo)request.getAttribute("trabajo");
 					<label class="font-weight-bold ">Costo Mano de Obra</label>
 					<input class="form-control text-center bg-light" type="text" value="<%=t.getCosto_mdo()%>" disabled>
 				</div>
+			</div>
+			<h4>Repuestos del trabajo:</h4>
+			<div class="table-responsive">
+				<table class="table">
+					<thead>
+						<tr>
+	 						<th></th>
+	 						<th>Descripcion</th>
+	 						<th>Precio</th>
+	 						<th>Stock</th>
+	 						<th></th>
+	 					</tr>
+	 				</thead>
+	 				<tbody>
+	 					<%for (Repuesto r: t.getRepuestos()) { %>
+	 						<tr>
+	 							<td></td>
+	 							<td><%=r.getDescripcion()%></td>
+	 							<td><%=r.getPrecio()%></td>
+	 							<td><%=r.getStock()%></td>
+	 							<td></td>
+	 						</tr>
+	 					<% } %>
+	 				</tbody>
+				</table>
 			</div>			
 			<div class="botonn mb-3">
 				<form action="ABMCTrabajo" method="post">

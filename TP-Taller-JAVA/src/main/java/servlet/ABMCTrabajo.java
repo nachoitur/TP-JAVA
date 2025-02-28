@@ -1,7 +1,10 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -124,6 +127,48 @@ public class ABMCTrabajo extends HttpServlet {
                     t.setTipo_trabajo(tipoTrabajo);
                     t.setDescripcion(descripcion);
                     t.setCosto_mdo(costoMdo);
+                    
+                    // Lógica para los repuestos
+                    String[] repuestosIds = request.getParameterValues("repuestos[]");
+                    
+                    LinkedList<Repuesto> repuestosActuales = t.getRepuestos();
+                    LinkedList<Repuesto> repuestosAIncluir = new LinkedList<>();
+                    LinkedList<Repuesto> repuestosAEliminar = new LinkedList<>();
+                    
+                    RepuestoLogic repuestoLogic = new RepuestoLogic();
+                    
+                    Map<Integer, Repuesto> mapaRepuestosActuales = new HashMap<>();
+                    for (Repuesto repuesto : repuestosActuales) {
+                        mapaRepuestosActuales.put(repuesto.getId_repuesto(), repuesto);
+                    }
+
+                    if (repuestosIds != null) {
+                        for (String repuestoIdStr : repuestosIds) {
+                            int repuestoId = Integer.parseInt(repuestoIdStr);
+                            
+                            if (!mapaRepuestosActuales.containsKey(repuestoId)) {
+                                Repuesto nuevoRepuesto = repuestoLogic.getById(repuestoId);
+                                if (nuevoRepuesto != null) {
+                                    repuestosAIncluir.add(nuevoRepuesto);
+                                }
+                            }
+                        }
+                    }
+
+                    for (Repuesto repuesto : repuestosActuales) {
+                        if (repuestosIds == null || 
+                            !Arrays.asList(repuestosIds).contains(String.valueOf(repuesto.getId_repuesto()))) {
+                            repuestosAEliminar.add(repuesto);
+                        }
+                    }
+
+                    // Aplicar los cambios en la instancia de trabajo
+                    repuestosActuales.addAll(repuestosAIncluir);
+                    repuestosActuales.removeAll(repuestosAEliminar);
+                    t.resetRepuestos();
+                    for (Repuesto rep : repuestosActuales) {
+                    	t.setRepuestos(rep);
+                    }
 
                     try {
                     	ctrlTrabajo.modificarTrabajo(t);

@@ -139,6 +139,48 @@ public class DataUsuario {
 		return u;
 	}
 	
+	public Usuario getByDni(String dni) {
+		Usuario u=null;
+		DataVehiculo dv = new DataVehiculo();
+		PreparedStatement stmt=null;
+		ResultSet rs=null;
+		try {
+			stmt=dbConnector.getInstancia().getConn().prepareStatement(
+					"select * from usuario where num_doc=?"
+					);
+			stmt.setString(1, dni);
+			rs=stmt.executeQuery();
+			if(rs!=null && rs.next()) {
+				u=new Usuario();
+				
+				u.setId_usuario(rs.getInt("id_usuario"));
+				u.setNombre_usuario(rs.getString("nombre_usuario"));
+				u.setContraseña(rs.getString("contraseña"));
+				u.setNombre(rs.getString("nombre"));
+				u.setApellido(rs.getString("apellido"));
+				u.setTelefono(rs.getString("telefono"));
+				u.setEmail(rs.getString("email"));
+				u.setTipo_doc(rs.getString("tipo_doc"));
+				u.setNum_doc(rs.getString("num_doc"));
+				u.setDireccion(rs.getString("direccion"));
+				u.setRol(rs.getInt("rol"));
+				dv.setVehiculos(u);
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(rs!=null) {rs.close();}
+				if(stmt!=null) {stmt.close();}
+				dbConnector.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return u;
+	}
+	
 	
 	public void add(Usuario u) {
 		PreparedStatement stmt= null;

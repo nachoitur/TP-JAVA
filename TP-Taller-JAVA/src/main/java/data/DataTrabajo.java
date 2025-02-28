@@ -124,6 +124,19 @@ public class DataTrabajo {
             stmt.setFloat(3, t.getCosto_mdo());
             stmt.setInt(4, t.getId_trabajo());
             stmt.executeUpdate();
+            
+            stmt = dbConnector.getInstancia().getConn().prepareStatement(
+                    "DELETE FROM trabajo_repuesto WHERE id_trabajo=?");
+            stmt.setInt(1, t.getId_trabajo());
+            stmt.executeUpdate();
+            
+            for(Repuesto re: t.getRepuestos()) {
+            	stmt = dbConnector.getInstancia().getConn().prepareStatement("INSERT INTO trabajo_repuesto"
+            			+ "(id_trabajo, id_repuesto) VALUES(?, ?)");
+                stmt.setInt(1, t.getId_trabajo());
+                stmt.setInt(2, re.getId_repuesto());
+                stmt.executeUpdate();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

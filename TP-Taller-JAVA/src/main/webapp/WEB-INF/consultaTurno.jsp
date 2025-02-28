@@ -29,10 +29,12 @@ Turno t =(Turno)request.getAttribute("turno");
 </head>
 <body>
 	<div class="comeabcck">
-	<%@ include file="/WEB-INF/MenuContextualAdmin.jsp"%>
+		<%@ include file="/WEB-INF/MenuContextualAdmin.jsp"%>
+	</div>
+	<div>
 		<form action="Conexion" method="post">
 			<input type="hidden" class="custom-control-input"  name="idUserLogin" value="<%=userLogin.getId_usuario()%>">
-			<button class="btn btn-primary" type="submit" name="optionBM" value="trabajos">Volver</button>
+			<button class="btn btn-primary" type="submit" name="optionBM" value="turnos">Volver</button>
 		</form>
 	</div>
 	<div class="container d-flex flex-column  justify-content-center align-items-center">
@@ -50,15 +52,21 @@ Turno t =(Turno)request.getAttribute("turno");
 				</div>
 			</div>
 			<div class="row text-center">
-				<div class="col">
-					<label class="font-weight-bold ">Descripción del vehículo</label>
-					<%
-					Vehiculo v = t.getVehiculo();
-					String desc = v.getMarca() + " - " + v.getModelo() + " - " + v.getColor() + " - " + v.getPatente() + " - " + v.getAño();
-					%>
-					<input class="form-control text-center bg-light" type="text" value="<%=desc%>" disabled>
-				</div>
+    			<div class="col">
+        			<label class="font-weight-bold">Descripción del vehículo</label>
+        			<%
+        			Vehiculo v = t.getVehiculo();
+        			String desc = v.getMarca() + " " + v.getModelo() + " - " + v.getColor() + " - " + v.getPatente() + " - Año: " + v.getAño();
+        			%>
+        			<input class="form-control text-center bg-light"
+               			type="text"
+               			value="<%=desc%>"
+               			disabled
+               			style="min-width: 400px; max-width: 100%; font-size: 1.1rem;">
+    			</div>
 			</div>
+
+
 			<div class="row text-center">
 				<div class="col">
 					<label class="font-weight-bold ">Kilómetros actuales</label>
@@ -87,17 +95,26 @@ Turno t =(Turno)request.getAttribute("turno");
 	 				<tbody>
 	 					<%for (Trabajo tra: t.getTrabajos()) { %>
 	 						<tr>
+	 							<td></td>
 	 							<td><%=tra.getDescripcion()%></td>
 	 							<td><%=tra.getCosto_mdo()%></td>
 	 							<td><%=tra.getTotalRepuestos()%></td>
-	 							<td><%=(tra.getCosto_mdo() + tra.getTotalRepuestos())%></td>
+	 							<%float subtotal = tra.getCosto_mdo() + tra.getTotalRepuestos();%>
+	 							<td><%=subtotal%></td>
+	 							<td></td>
 	 						</tr>
 	 					<% } %>
 	 				</tbody>
 				</table>
 			</div>
+			<div class="row text-center">
+				<div class="col">
+					<label class="font-weight-bold ">Total</label>
+					<input class="form-control text-center bg-light" type="text" value="<%=t.getTotal()%>" disabled>
+				</div>
+			</div>
 			<div class="botonn mb-3">
-				<form action="ABMCTrabajo" method="post">
+				<form action="ABMCTurno" method="post">
 					<input type="hidden" class="custom-control-input" name="idUserLogin" value="<%=userLogin.getId_usuario()%>">
 					<input type="hidden" class="custom-control-input" name="fechaTurno" value="<%=t.getFecha()%>">
 					<input type="hidden" class="custom-control-input" name="horaTurno" value="<%=t.getHora()%>">
@@ -107,7 +124,7 @@ Turno t =(Turno)request.getAttribute("turno");
 				</form>
 			</div>						
 			<div class="botonn">
-				<form action="ABMCUsuario" method="post">
+				<form action="ABMCTurno" method="post">
 					<input type="hidden" class="custom-control-input" name="idUserLogin" value="<%=userLogin.getId_usuario()%>">
 					<input type="hidden" class="custom-control-input" name="fechaTurno" value="<%=t.getFecha()%>">
 					<input type="hidden" class="custom-control-input" name="horaTurno" value="<%=t.getHora()%>">

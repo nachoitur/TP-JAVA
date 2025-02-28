@@ -67,7 +67,7 @@
             <!-- Kilometros actuales -->
             <div class="form-group">
                 <label for="kmact">Kilómetros actuales: </label>
-                <input id="kmact" name="kmact" class="form-control col-8"  type="number" step="any" required>
+                <input id="kmact" name="kmact" class="form-control col-8"  type="number" step="any" min="0" required>
             </div>
             
             <!-- Medio de Pago -->

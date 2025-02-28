@@ -6,10 +6,12 @@
 <%@page import="java.time.LocalDate" %>
 <%@page import="java.time.LocalTime" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
 <html>
 <head>
 	<meta charset="ISO-8859-1">
     <title>Actualizar Turno</title>
+    <link rel="stylesheet" href="style/styles.css">
     <link href="style/bootstrap.css" rel="stylesheet">
 <%
 	Usuario userLogin =(Usuario)session.getAttribute("usuarioLogin");
@@ -62,10 +64,10 @@
     			<% } %>
 			</ul>
 		
-		<!-- Kilometros actuales -->
+			<!-- Kilometros actuales -->
             <div class="form-group">
                 <label for="kmact">Kilómetros actuales: </label>
-                <input id="kmact" name="kmact" class="form-control col-8" placeholder="<%=tur.getKm_actuales()%>" value="<%=tur.getKm_actuales()%>" type="number" step="any" required>
+                <input id="kmact" name="kmact" class="form-control col-8" placeholder="<%=tur.getKm_actuales()%>" value="<%=tur.getKm_actuales()%>" type="number" step="any" min="0" required>
             </div>
             
             <!-- Medio de Pago -->
@@ -96,8 +98,11 @@
                 <input type="text" id="total" name="total" class="form-control" value="0" readonly>
             </div>
             
-            <button id="submitBtn" type="submit" class="btn btn-success">Guardar cambios</button>
+            <div class="form-group">
+            	<button id="submitBtn" type="submit" class="btn btn-success">Guardar cambios</button>
+            </div>
     </form>
+</div>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     const listaTrabajos = document.getElementById("listaTrabajos");

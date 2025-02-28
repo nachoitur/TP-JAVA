@@ -38,4 +38,8 @@ public class UsuarioLogic {
 	public boolean validarContraseña(String contraseña, String contraseñaRepetida)  {
 		return contraseña.equals(contraseñaRepetida)?true:false;
 	}
+	
+	public Usuario getByDni(String dni) {
+		return dataU.getByDni(dni);
+	}
 }

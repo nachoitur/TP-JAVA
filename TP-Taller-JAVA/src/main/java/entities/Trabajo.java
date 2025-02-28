@@ -51,6 +51,10 @@ public class Trabajo {
 		this.repuestos.add(repuesto);
 	}
 	
+	public void resetRepuestos() {
+		this.repuestos = new LinkedList<Repuesto>();
+	}
+	
 	public float getTotalRepuestos() {
 		float total = 0;
 		for(Repuesto r: getRepuestos()) {

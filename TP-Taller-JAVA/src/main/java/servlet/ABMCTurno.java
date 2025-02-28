@@ -64,9 +64,6 @@ public class ABMCTurno extends HttpServlet {
         	LocalTime horaTurno = LocalTime.parse(request.getParameter("horaTurno"));
         	Integer idVehiculo = Integer.parseInt(request.getParameter("idVehiculo"));
             t = ctrlTurno.getByKeys(fechaTurno, horaTurno, idVehiculo);
-            if (t == null) {
-                System.out.println("ERROR: No se encontró el turno");
-            }
             request.setAttribute("turno", t);
         } else {
             t = new Turno();
@@ -155,7 +152,6 @@ public class ABMCTurno extends HttpServlet {
                     
                     // Lógica para los trabajos
                     String[] trabajosIds = request.getParameterValues("trabajos[]");
-                    System.out.println("Trabajos recuperados (si los hay): " + trabajosIds);
                     
                     LinkedList<Trabajo> trabajosActuales = t.getTrabajos();
                     LinkedList<Trabajo> trabajosAIncluir = new LinkedList<>();
@@ -214,7 +210,8 @@ public class ABMCTurno extends HttpServlet {
                     request.getRequestDispatcher("WEB-INF/listaTurnos.jsp").forward(request, response);
                     break;	
             	} catch (Exception e) {
-            		
+            		String msg=e.getMessage();
+					response.getWriter().append("Error ").append(msg);
             	}
         }
     }
