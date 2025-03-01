@@ -83,8 +83,7 @@ public class ABMCVehiculo extends HttpServlet {
             		
             		try {
                     	ctrlVeh.altaVehicle(v);
-                    	request.setAttribute("mensaje", "Vehiculo añadido satisfactoriamente.");
-    					request.getRequestDispatcher("WEB-INF/listaVehiculos.jsp").forward(request, response);
+    					request.getRequestDispatcher("WEB-INF/accionUsuarioExito.jsp").forward(request, response);
 
     				} catch (Exception e) {
     					String msg=e.getMessage();

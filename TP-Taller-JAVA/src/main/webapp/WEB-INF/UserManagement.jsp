@@ -113,6 +113,7 @@
   				<form action="ConexionUsuario" method="post">
 				<div class="card box1 ">
 					<input type="hidden" class="custom-control-input"  name="idUserLogin" value="<%=userLogin.getId_usuario()%>">
+					<input type="hidden" class="custom-control-input" name="bandera" value="agregar">
 					<button class="btn cuadros  text-center p-0" type="submit" name="optionBM" value="registrarVehiculo">
         			<img class="card-img-top border-0" src="https://atpsoftware.vn/wp-content/uploads/2020/02/Nh%E1%BA%ADn-bi%E1%BA%BFt-Register-l%C3%A0-g%C3%AC.jpg" alt="img-registrar-vehiculo">
        				<div class="card-body">
@@ -124,6 +125,7 @@
 				<form action="ConexionUsuario" method="post">
 				<div class="card box1 ">
 					<input type="hidden" class="custom-control-input"  name="idUserLogin" value="<%=userLogin.getId_usuario()%>">
+					<input type="hidden" class="custom-control-input" name="bandera" value="agregar">
 					<button class="btn cuadros  text-center p-0" type="submit" name="optionBM" value="sacarTurno">
         			<img class="card-img-top border-0" src="https://day.io/wp-content/uploads/2021/07/software-control-horarios-e1625395372832.png" alt="img-sacar-turno">
        				<div class="card-body">

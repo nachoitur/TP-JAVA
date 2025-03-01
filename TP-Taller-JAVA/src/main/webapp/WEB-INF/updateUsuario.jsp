@@ -39,11 +39,11 @@
 			
 			<div class="form-group">
 				<label for="selectTipo_doc"> Tipo documento</label>
-				<select class="form-select" name="selectTipo_doc" selected="<%=u.getTipo_doc()%>" required>
+				<select class="form-select" name="selectTipo_doc" required>
 					<option> Seleccione uno...</option>
-					<option selected value="dni">DNI</option>
-					<option value="pasaporte">Pasaporte</option>
-					<option value="libretaCivica">Libreta Civica</option>
+					<option value="dni" <%=u.getTipo_doc().equals("dni") ? "selected" : ""%> >DNI</option>
+					<option value="pas" <%=u.getTipo_doc().equals("pas") ? "selected" : ""%>>Pasaporte</option>
+					<option value="lic" <%=u.getTipo_doc().equals("lic") ? "selected" : ""%>>Libreta Civica</option>
 				</select>
 			</div>
 			

@@ -61,8 +61,8 @@
 				<select class="form-select" name="selectTipo_doc">
 					<option selected> Seleccione uno</option>
 					<option value="dni">DNI</option>
-					<option value="pasaporte">Pasaporte</option>
-					<option value="libretaCivica">Libreta Civica</option>
+					<option value="pas">Pasaporte</option>
+					<option value="lic">Libreta Civica</option>
 				</select>
 			</div>
 			

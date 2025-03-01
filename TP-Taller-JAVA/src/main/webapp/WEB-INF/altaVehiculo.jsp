@@ -66,7 +66,7 @@
                 <input id="infoAdicional" name="infoAdicional" class="form-control col-8"  type="text" required>
             </div>
             
-            <!-- Info adicional -->
+            <!-- Usuario del auto -->
             <div class="form-group">
                 <label for="dniDuenio">DNI del usuario del auto: </label>
                 <input id="dniDuenio" name="dniDuenio" class="form-control col-8"  type="text" required>

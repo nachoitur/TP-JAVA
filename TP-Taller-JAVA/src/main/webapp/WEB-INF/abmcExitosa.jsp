@@ -11,7 +11,6 @@
 <%
  	Usuario userLogin =(Usuario)session.getAttribute("usuarioLogin");
 	Usuario u =(Usuario)request.getAttribute("usuario");
- 	//LinkedList<Usuario> userlist=(LinkedList<Usuario>)request.getAttribute("listaUsuarios");
  %> 
 </head>
 <body>

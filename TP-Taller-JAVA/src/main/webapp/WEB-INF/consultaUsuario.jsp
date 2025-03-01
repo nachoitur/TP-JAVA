@@ -83,7 +83,22 @@
 		<div class="row text-center">
 			<div class="col">
 				<label class="font-weight-bold ">Tipo Documento</label>
-				<input class="form-control text-center bg-light" type="text" value="<%=u.getTipo_doc()%>" disabled>
+				<%
+				String doc = u.getTipo_doc();
+				String valor = "";
+				switch(doc){
+					case"dni":
+						valor = "DNI";
+						break;
+					case"pas":
+						valor = "Pasaporte";
+						break;
+					case"lic":
+						valor = "Libreta Cívica";
+						break;
+				}
+				%>
+				<input class="form-control text-center bg-light" type="text" value="<%=valor%>" disabled>
 			</div>
 			
 			<div class="col">
