@@ -41,15 +41,14 @@
 
             <!-- Selección de Vehículo -->
             <div class="form-group">
-                <label for="vehiculo">Vehiculo: </label>
-                <input list="vehiculos" name="vehiculo" id="vehiculo" class="form-control" required>
-                <datalist id="vehiculos">
-                    <% for (Vehiculo v : vehiculos) { %>
-                        <option value="<%= v.getPatente() %>">
-                    <% } %>
-                </datalist>
-                <span id="vehiculoError" class="text-danger" style="display:none;">Debe seleccionar uno de sus vehículos.</span>
-            </div>
+    			<label for="vehiculo">Vehículo: </label>
+    			<select id="vehiculo" name="vehiculo" class="form-select" required>
+        			<% for (Vehiculo v : vehiculos) { %>
+            			<option value="<%= v.getPatente() %>"><%= v.getPatente() %></option>
+        			<% } %>
+			    </select>
+			</div>
+
 
             <!-- Selección de Trabajos -->
             <div class="form-group">
@@ -103,24 +102,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const listaTrabajos = document.getElementById("listaTrabajos");
     const totalInput = document.getElementById("total");
     const submitBtn = document.getElementById("submitBtn");
-
-    // Verificar que los elementos existen
-    let elementosNoEncontrados = [];
-    if (!fechaInput) elementosNoEncontrados.push("fecha");
-    if (!horaSelect) elementosNoEncontrados.push("hora");
-    if (!trabajosSelect) elementosNoEncontrados.push("trabajo");
-    if (!vehiculoSelect) elementosNoEncontrados.push("vehiculo");
-    if (!agregarTrabajoBtn) elementosNoEncontrados.push("agregarTrabajo");
-    if (!listaTrabajos) elementosNoEncontrados.push("listaTrabajos");
-    if (!totalInput) elementosNoEncontrados.push("total");
-    if (!submitBtn) elementosNoEncontrados.push("submitBtn");
-
-    if (elementosNoEncontrados.length > 0) {
-        console.error("Error: Los siguientes elementos no fueron encontrados en el DOM:", elementosNoEncontrados);
-        return;
-    } else {
-        console.log("Todos los elementos fueron encontrados correctamente");
-    }
 
     // Deshabilitar select de horarios hasta que se seleccione una fecha válida
     horaSelect.disabled = true;
@@ -231,13 +212,6 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!fechaInput.value || !horaSelect.value || !vehiculoSelect.value || listaTrabajos.children.length === 0) {
             alert("Debe completar todos los campos y agregar al menos un trabajo.");
             e.preventDefault();
-            return;
-        }
-        
-		// Revisa que el vehiculo ingresado esté registrado
-        if (!vehiculosDisponibles.includes(vehiculoSeleccionado)) {
-            alert("Debes elegir uno de tus vehículos registrado, el vehículo ingresado no está registrado.");
-            e.preventDefault(); // Evita que se envíe el formulario
             return;
         }
     });

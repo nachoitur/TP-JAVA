@@ -29,4 +29,7 @@ public class TurnoLogic {
 	public void bajaTurno(Turno t) {
 		dataT.remove(t);
 	}
+	public LinkedList<Turno> obtenerTrabajosFinalizadosPorTipo(int idV, String tipoT){
+		return dataT.getByCarIdAndJobType(idV, tipoT);
+	}
 }

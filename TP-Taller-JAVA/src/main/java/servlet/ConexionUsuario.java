@@ -156,7 +156,12 @@ public class ConexionUsuario extends HttpServlet {
 			
 		// VER VEHICULOS DE UN USUARIO
 		case "misVehiculos":
-			request.getRequestDispatcher("WEB-INF/listaVehiculosUsuario.jsp").forward(request, response);
+			if(!userLogin.getVehiculos().isEmpty()) {
+				request.getRequestDispatcher("WEB-INF/listaVehiculosUsuario.jsp").forward(request, response);
+			}
+			else {
+				request.getRequestDispatcher("WEB-INF/usuarioVehiculosVacios.jsp").forward(request, response);
+			}
 			break;
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + opcion);

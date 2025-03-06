@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
+import logic.MailSender;
 import logic.TrabajoLogic;
 import logic.TurnoLogic;
 import logic.UsuarioLogic;
@@ -149,6 +150,15 @@ public class ABMCTurno extends HttpServlet {
                     t.setMedio_pago(medioPago);
                     t.setTotal(Float.parseFloat(total));
                     t.setEstado(estado);
+                    
+                    if (estado.equalsIgnoreCase("A entregar")) {
+                        String emailUsuario = ctrlUsu.getById(t.getVehiculo().getId_usuario()).getEmail();
+                        String asunto = "Taller Mecánico - Retiro de Vehiculo";
+                        String cuerpo = "Estimado cliente, su vehículo se encuentra disponible para retirar en el taller.";
+
+                        MailSender.enviarCorreo(emailUsuario, asunto, cuerpo);
+                    }
+
                     
                     // Lógica para los trabajos
                     String[] trabajosIds = request.getParameterValues("trabajos[]");

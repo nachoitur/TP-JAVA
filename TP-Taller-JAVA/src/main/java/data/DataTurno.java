@@ -142,8 +142,9 @@ public class DataTurno {
             stmt.setInt(7, t.getVehiculo().getId_vehiculo());
             stmt.executeUpdate();
             
-            stmt = dbConnector.getInstancia().getConn().prepareStatement(
-                    "DELETE FROM trabajo_turno WHERE fecha_turno=? AND hora_turno=? AND id_vehiculo=?");
+            stmt.close();
+            
+            stmt = dbConnector.getInstancia().getConn().prepareStatement("DELETE FROM trabajo_turno WHERE fecha_turno=? AND hora_turno=? AND id_vehiculo=?");
             stmt.setDate(1, java.sql.Date.valueOf(t.getFecha()));
             stmt.setTime(2, java.sql.Time.valueOf(t.getHora()));
             stmt.setInt(3, t.getVehiculo().getId_vehiculo());
@@ -182,6 +183,8 @@ public class DataTurno {
             stmt.setInt(3, t.getVehiculo().getId_vehiculo());
             stmt.executeUpdate();
             
+            stmt.close();
+            
             // Luego el turno en sí
             stmt = dbConnector.getInstancia().getConn().prepareStatement("DELETE FROM turno WHERE fecha_turno=?"
             		+ "AND hora_turno=? AND id_vehiculo=?");
@@ -199,5 +202,52 @@ public class DataTurno {
                 e.printStackTrace();
             }
         }
+    }
+    
+    public LinkedList<Turno> getByCarIdAndJobType(int idV, String tipoT){
+    	PreparedStatement stmt = null;
+        ResultSet rs = null;
+        DataTrabajo dt = new DataTrabajo();
+        DataVehiculo dv = new DataVehiculo();
+        LinkedList<Turno> turnos = new LinkedList<>();
+    	try {
+    		String query = "SELECT tu.* "
+    				+ "FROM turno tu "
+    				+ "INNER JOIN trabajo_turno tt "
+    				+ "ON tu.fecha_turno=tt.fecha_turno "
+    				+ "AND tu.hora_turno=tt.hora_turno "
+    				+ "AND tu.id_vehiculo=tt.id_vehiculo "
+    				+ "INNER JOIN trabajo tr "
+    				+ "ON tt.id_trabajo=tr.id_trabajo "
+    				+ "WHERE tu.id_vehiculo=? AND tr.tipoTrabajo=? AND tu.estado='Finalizado'";
+    		stmt = dbConnector.getInstancia().getConn().prepareStatement(query);
+    		stmt.setInt(1, idV);
+            stmt.setString(2, tipoT);
+            rs = stmt.executeQuery();
+            if (rs != null) {
+                while (rs.next()) {
+                    Turno t = new Turno();
+                    t.setFecha(rs.getDate("fecha_turno").toLocalDate());
+                    t.setHora(rs.getTime("hora_turno").toLocalTime());
+                    t.setVehiculo(dv.getVehiculoById(idV));
+                    t.setKm_actuales(rs.getInt("km_actuales"));
+                    t.setEstado(rs.getString("estado"));
+                    t.setMedio_pago(rs.getString("medio_pago"));
+                    t.setTotal(rs.getFloat("total"));
+                    dt.setTrabajos(t);
+                    turnos.add(t);
+                }
+            }
+    	} catch (SQLException e) {
+    		e.printStackTrace();
+    	} finally {
+    		try {
+    			if (stmt != null) stmt.close();
+                dbConnector.getInstancia().releaseConn();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+    	}
+    	return turnos;
     }
 }

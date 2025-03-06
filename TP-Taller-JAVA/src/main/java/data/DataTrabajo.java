@@ -125,6 +125,8 @@ public class DataTrabajo {
             stmt.setInt(4, t.getId_trabajo());
             stmt.executeUpdate();
             
+            stmt.close();
+            
             stmt = dbConnector.getInstancia().getConn().prepareStatement(
                     "DELETE FROM trabajo_repuesto WHERE id_trabajo=?");
             stmt.setInt(1, t.getId_trabajo());
@@ -155,6 +157,8 @@ public class DataTrabajo {
         	stmt = dbConnector.getInstancia().getConn().prepareStatement("DELETE FROM trabajo_repuesto WHERE id_trabajo=?");
         	stmt.setInt(1, t.getId_trabajo());
             stmt.executeUpdate();
+            
+            stmt.close();
             
             stmt = dbConnector.getInstancia().getConn().prepareStatement("DELETE FROM trabajo WHERE id_trabajo=?");
             stmt.setInt(1, t.getId_trabajo());
