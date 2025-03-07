@@ -1,6 +1,8 @@
 # TP Final JAVA: Taller Mecánico
 Repositorio para el trabajo práctico integrador de la materia JAVA
 
+El documento guía se encuentra en [este enlace](https://docs.google.com/document/d/1kf2CVLIm25vhoZgEfjq2edecSHR7VnVC7qTf7a5FzxM/edit?usp=sharing "Documentacion").
+
 ## Integrante
 
 |Alumno|Legajo
@@ -27,13 +29,13 @@ El mecánico tendrá acceso al menú de administrador en el cual puede ver vehí
 
 |Requerimiento|Cantidad|Detalle/Listado de casos incluidos|
 |:-|-:|:-|
-|ABMC|todos|Usuario<br>Vehículo<br>Turno<br>Trabajo<br>Repuesto
+|ABMC|Todos|Usuario<br>Vehículo<br>Turno<br>Trabajo<br>Repuesto
 |CU "Complejo"(nivel resumen)|1|Realización del trabajo mecánico:<br>Sacar turno<br>Ingreso del vehículo<br>Realización del trabajo<br>Retiro del vehículo
 |Listado complejo|1| Listado de todos los trabajos de un tipo realizados a un vehículo.
 |Nivel de acceso|3| Invitado<br>Usuario<br>Mecánico (Administrador)
-|Manejo de errores|obligatorio|||
-|requerimiento extra obligatorio|1|Envío de emails|
-|publicar el sitio|obligatorio (Suspendido)|||
+|Manejo de errores|Obligatorio|||
+|Requerimiento extra obligatorio|1|Envío de emails|
+|Publicar el sitio|Obligatorio|(Suspendido)||
 
 
 
