@@ -50,10 +50,8 @@ public class ListadoComplejo extends HttpServlet {
 		}
 		else {
 			String tipoTrabajo = request.getParameter("tipoTrabajo");
-			System.out.println(tipoTrabajo);
             TurnoLogic ctrlTurno = new TurnoLogic();
             LinkedList<Turno> trabajosFinalizados = ctrlTurno.obtenerTrabajosFinalizadosPorTipo(idVehiculo, tipoTrabajo);
-            System.out.println(trabajosFinalizados);
             request.setAttribute("lista", trabajosFinalizados);
             request.setAttribute("tipo", tipoTrabajo);
             request.setAttribute("idVehiculo", idVehiculo);
