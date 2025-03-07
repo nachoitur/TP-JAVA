@@ -30,7 +30,7 @@ El mecánico tendrá acceso al menú de administrador en el cual puede ver vehí
 |Requerimiento|Cantidad|Detalle/Listado de casos incluidos|
 |:-|-:|:-|
 |ABMC|Todos|Usuario<br>Vehículo<br>Turno<br>Trabajo<br>Repuesto
-|CU "Complejo"(nivel resumen)|1|Realización del trabajo mecánico:<br>Sacar turno<br>Ingreso del vehículo<br>Realización del trabajo<br>Retiro del vehículo
+|CU "Complejo"(nivel resumen)|1|Realización del trabajo mecánico:<br>Registro e ingreso del usuario<br>Sacar turno<br>Ingreso del vehículo y realización del trabajo<br>Retiro del vehículo
 |Listado complejo|1| Listado de todos los trabajos de un tipo realizados a un vehículo.
 |Nivel de acceso|3| Invitado<br>Usuario<br>Mecánico (Administrador)
 |Manejo de errores|Obligatorio|||
