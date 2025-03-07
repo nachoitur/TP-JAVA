@@ -17,9 +17,9 @@ _<b>Invitado (no requiere login).<br>
 Usuario (alguien que ya se registró para reservar un turno o que ha sido atendido).<br>
 Mecánico (será alguien con rol de administrador que tendrá permisos completos en la aplicación).</b>_
 
-Un usuario si es la primera vez que ingresa al sistema será como invitado que solo tiene acceso a la página principal y a aquellas que no requieran el login. En la página principal podrá visualizar los tipos de trabajo que se realizan y turnos disponibles del taller. En caso de tener una cuenta en el sistema, podrá loguearse en el mismo y, caso contrario, registrarse. Al registrarse deberá proporcionar sus datos. Una vez logueado tendrá acceso al menú de usuarios en el cual puede registrar su vehículo, sacar un turno y más.
+Un usuario si es la primera vez que ingresa al sistema será como invitado que solo tiene acceso a la página principal y a las pestañas del inicio que no requieran de un login. En la página principal podrá visualizar los tipos de trabajo que se realizan, cómo se trabajan con los turnos en el taller y servicios que se ofrecen. En caso de tener una cuenta en el sistema, podrá loguearse en el mismo y, caso contrario, registrarse. Al registrarse deberá proporcionar sus datos. Una vez logueado tendrá acceso al menú de usuarios en el cual puede registrar su vehículo, sacar un turno y ver los trabajos realizados a su vehiculo.
 
-El mecánico tendrá acceso al menú de administrador en el cual puede ver vehículos y clientes registrados, los trabajos que se estén realizando, valores de repuestos y más. También podrá Crear, Modificar o Eliminar Usuarios, Vehículos, Repuestos, Turnos y más. Podrá hacer consultas de cada entidad con sus respectivos listados. Puede realizar el listado de trabajos de un mismo tipo realizado a algún vehículo.
+El mecánico tendrá acceso al menú de administrador en el cual puede ver vehículos y clientes registrados, los trabajos que se estén realizando, valores de repuestos y más. También podrá Crear, Modificar o Eliminar Usuarios, Vehículos, Repuestos, Turnos y Trabajos. Podrá hacer consultas de cada entidad con sus respectivos listados.
 
 
 
@@ -33,11 +33,11 @@ El mecánico tendrá acceso al menú de administrador en el cual puede ver vehí
 |Nivel de acceso|3| Invitado<br>Usuario<br>Mecánico (Administrador)
 |Manejo de errores|obligatorio|||
 |requerimiento extra obligatorio|1|Envío de emails|
-|publicar el sitio|olbigatorio|||
+|publicar el sitio|obligatorio (Suspendido)|||
 
 
 
 ## Notas adicionales / Críticas constructivas
 Estas son notas para dejar constancia de cosas que fui dandome cuenta al programar, son más cuestiones de contrucción del modelo más que de otra cosa.
-La clase Turno no debería tener como clave principal también al atributo "Hora" pues es indistinto si dos vehículos sacan turno a la misma hora y un vehículo, normalmente, no va a sacar dos turnos para el mismo día.
-La clase Vehículo no necesariamente debería llevar un ID ya que el identificador más común es la patente. Raro sería el caso en el que dos vehículos tengan la misma patente.
+La clase Turno no debería tener como clave principal también al atributo "Hora" pues es indistinto si dos vehículos sacan turno a la misma hora y un vehículo, normalmente, un vehículo no va a sacar dos turnos para un mismo día.
+La clase Vehículo podría no llevar un ID ya que el identificador más común es la patente. Raro sería el caso en el que dos vehículos tengan la misma patente.
