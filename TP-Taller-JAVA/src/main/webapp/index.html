@@ -1,44 +1,78 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
 <meta charset="ISO-8859-1">
-<title>Inicio</title>
+<title>Inicio - Taller Mecánico</title>
 <link rel="stylesheet" href="style/styles.css">
 <link href="style/bootstrap.css" rel="stylesheet">
 </head>
 <body>
-	<header class="p-3 bg-dark">
-      <div class="container">
-        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-
-          <ul class="nav col-8 me-lg-auto mb-2 justify-content-center mb-md-0">
-            <li><a href="index.html" class="nav-link px-2 text-secondary">Inicio</a></li>
-            <li><a href="#" class="nav-link px-2 text-white">Trabajos</a></li>
-            <li><a href="#" class="nav-link px-2 text-white">Turnos</a></li>
-            <li><a href="#" class="nav-link px-2 text-white">Other</a></li>
-          </ul>
-  
-          <div class="text-end">
-           	<a href="signin.jsp" class="link" > <button type="submit" class="btn btn-outline-light me-2">Iniciar Sesión</button></a>
-            <a href="registro.jsp" class="link" > <button type="submit" name="optionBM" value="index" class="btn btn-warning">Registrarme</button></a>
-          </div>
+<header class="p-3 bg-dark text-white">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-between">
+            <a href="index.html" class="navbar-brand text-white">Taller Mecánico</a>
+            <ul class="nav">
+                <li><a href="index.html" class="nav-link px-2 text-secondary">Inicio</a></li>
+                <li><a href="#" class="nav-link px-2 text-white">Trabajos</a></li>
+                <li><a href="#" class="nav-link px-2 text-white">Turnos</a></li>
+                <li><a href="#" class="nav-link px-2 text-white">Servicios</a></li>
+            </ul>
+            <div>
+                <a href="signin.jsp" class="btn btn-outline-light me-2">Iniciar Sesión</a>
+                <a href="registro.jsp" class="btn btn-warning">Registrarme</a>
+            </div>
         </div>
-      </div>
-    </header>
-    
-    
+    </div>
+</header>
 
-    <main>
-        <div class="div1"> </div>
+<main>
+    <section class="hero text-center text-white d-flex align-items-center" style="background: url('images/taller.jpg') center/cover; height: 60vh;">
+        <div class="container">
+            <h1 class="display-4">Bienvenido a nuestro Taller Mecánico</h1>
+            <p class="lead">Ofrecemos los mejores servicios de reparación y mantenimiento para tu vehículo.</p>
+            <a href="registro.jsp" class="btn btn-primary btn-lg">Registrate y agenda tu turno ahora</a>
+        </div>
+    </section>
 
-        <div class="div2"></div>
+    <section class="container my-5">
+        <div class="row text-center">
+            <div class="col-md-4">
+                <div class="card shadow-sm p-3">
+                    <img src="images/servicio1.jpg" class="card-img-top" alt="Servicio 1">
+                    <div class="card-body">
+                        <h5 class="card-title">Mantenimiento Preventivo</h5>
+                        <p class="card-text">Asegura el mejor rendimiento de tu vehículo con nuestras revisiones.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card shadow-sm p-3">
+                    <img src="images/servicio2.jpg" class="card-img-top" alt="Servicio 2">
+                    <div class="card-body">
+                        <h5 class="card-title">Diagnóstico de Fallas</h5>
+                        <p class="card-text">Identificamos cualquier problema con tecnología avanzada.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card shadow-sm p-3">
+                    <img src="images/servicio3.jpg" class="card-img-top" alt="Servicio 3">
+                    <div class="card-body">
+                        <h5 class="card-title">Reparaciones Generales</h5>
+                        <p class="card-text">Desde frenos hasta motores, reparamos cualquier inconveniente.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
 
-    </main>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script>
-       $('.carousel').carousel();
-    </script> 
+<footer class="bg-dark text-white text-center py-3">
+    <p>&copy; 2025 Taller Mecánico. Todos los derechos reservados.</p>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>

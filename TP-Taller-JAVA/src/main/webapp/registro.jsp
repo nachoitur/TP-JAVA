@@ -30,7 +30,7 @@
             </button>
    		 </div>    
    		 
-		<h1 class="text-center">Registro</h1>
+		<h2 class="text-center">Registro de usuario</h2>
 		<form class="form-registro" action="registro" method="post" id="formulario">
 		<% if(session.getAttribute("usuarioLogin")!=null){%>
 			<input type="hidden" class="custom-control-input" name="idUserLogin" value="<%=userLogin.getId_usuario()%>">
@@ -92,6 +92,7 @@
 			</div>
 			<div class="col-auto">
       			<button type="submit" class="btn btn-primary mb-2">Registrar</button>
+      			<button type="button" class="btn btn-secondary mb-2" onclick="window.history.back();">Atrás</button>
     		</div>
 			
 		</form>

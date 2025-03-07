@@ -5,13 +5,16 @@ import data.DataTurno;
 import entities.Turno;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Comparator;
 
 public class TurnoLogic {
 	
 	private DataTurno dataT = new DataTurno();
 
 	public LinkedList<Turno> getAll(){
-		return dataT.getAll();
+		LinkedList<Turno> shiftlist = dataT.getAll();
+		shiftlist.sort(Comparator.comparing(Turno::getFecha).reversed());
+		return shiftlist;
 	}
 	
 	public Turno getByKeys(LocalDate fecha, LocalTime hora, int idVehiculo) {

@@ -49,7 +49,7 @@ LinkedList<Vehiculo> carlist = userLogin.getVehiculos();
                                 <td><%= v.getModelo() %></td>
                                 <td><%= v.getAño() %></td>
                                 <td><%= v.getColor() %></td>
-                                <td><%= v.getInfoAdicional() == null ? "No hay información adicional" : v.getInfoAdicional() %></td>
+                                <td><%= v.getInfoAdicional() == null || v.getInfoAdicional().equals("") ? "No hay información adicional" : v.getInfoAdicional() %></td>
                                 <td>
                                 <!-- Listado de trabajos -->
 									<div>
